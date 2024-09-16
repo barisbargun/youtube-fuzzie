@@ -1,4 +1,4 @@
 interface ICloudinaryUserImage {
-  imgUrl:string, 
-  public_id:number
+  imgUrl: string
+  public_id: number
 }

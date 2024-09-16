@@ -1,5 +1,13 @@
-import { CategoryIcon, ClipboardIcon, CloudDownloadIcon, HomeIcon, PaymentIcon, SettingsIcon, WorkflowsIcon } from "@/components/icons"
-import { MainNavItem, SidebarNavItem } from "@/types/nav"
+import {
+  CategoryIcon,
+  ClipboardIcon,
+  CloudDownloadIcon,
+  HomeIcon,
+  PaymentIcon,
+  SettingsIcon,
+  WorkflowsIcon
+} from '@/components/icons'
+import { MainNavItem, SidebarNavItem } from '@/types/nav'
 
 export interface DocsConfig {
   mainNav: MainNavItem[]
@@ -9,33 +17,33 @@ export interface DocsConfig {
 export const docsConfig: DocsConfig = {
   mainNav: [
     {
-      title: "Documentation",
-      href: "/docs",
+      title: 'Documentation',
+      href: '/docs'
     },
     {
-      title: "Components",
-      href: "/docs/components/accordion",
+      title: 'Components',
+      href: '/docs/components/accordion'
     },
     {
-      title: "Blocks",
-      href: "/blocks",
+      title: 'Blocks',
+      href: '/blocks'
     },
     {
-      title: "Charts",
-      href: "/charts",
+      title: 'Charts',
+      href: '/charts'
     },
     {
-      title: "Themes",
-      href: "/themes",
+      title: 'Themes',
+      href: '/themes'
     },
     {
-      title: "Examples",
-      href: "/examples",
+      title: 'Examples',
+      href: '/examples'
     },
     {
-      title: "Colors",
-      href: "/colors",
-    },
+      title: 'Colors',
+      href: '/colors'
+    }
   ],
   sidebarNav: [
     { title: 'Dashboard', href: '/dashboard', icon: HomeIcon },
@@ -44,6 +52,6 @@ export const docsConfig: DocsConfig = {
     { title: 'Connections', href: '/connections', icon: CloudDownloadIcon },
     { title: 'Billing', href: '/billing', icon: PaymentIcon },
     { title: 'Templates', href: '/templates', icon: CategoryIcon },
-    { title: 'Logs', href: '/logs', icon: ClipboardIcon },
-  ],
+    { title: 'Logs', href: '/logs', icon: ClipboardIcon }
+  ]
 }

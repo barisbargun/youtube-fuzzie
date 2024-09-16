@@ -1,22 +1,22 @@
-"use client";
-import { IPlanConfig } from "@/config/plans";
-import { CheckIcon, ArrowRight } from "lucide-react";
-import React from "react";
-import { CardContainer, CardBody, CardItem } from "../ui";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+'use client'
+import { IPlanConfig } from '@/config/plans'
+import { CheckIcon, ArrowRight } from 'lucide-react'
+import React from 'react'
+import { CardContainer, CardBody, CardItem } from '../ui'
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
 type Props = IPlanConfig & {
-  className?: React.ComponentProps<"div">["className"];
-};
+  className?: React.ComponentProps<'div'>['className']
+}
 
 const PricingCard = ({ desc, features, price, title, className }: Props) => {
   return (
     <CardContainer>
       <CardBody
         className={cn(
-          "group/card relative h-auto w-fit rounded-xl border border-black/[0.1] bg-gray-50 p-6 dark:border-white/[0.12] dark:bg-black dark:hover:shadow-2xl dark:hover:shadow-neutral-500/[0.1]",
-          className,
+          'group/card relative h-auto w-fit rounded-xl border border-black/[0.1] bg-gray-50 p-6 dark:border-white/[0.12] dark:bg-black dark:hover:shadow-2xl dark:hover:shadow-neutral-500/[0.1]',
+          className
         )}
       >
         <CardItem
@@ -73,7 +73,7 @@ const PricingCard = ({ desc, features, price, title, className }: Props) => {
         </div>
       </CardBody>
     </CardContainer>
-  );
-};
+  )
+}
 
-export default PricingCard;
+export default PricingCard

@@ -1,17 +1,17 @@
-export type EditorCanvasTypes =
+type EditorCanvasTypes =
   | 'Email'
   | 'Condition'
   | 'AI'
   | 'Slack'
-  | 'Google Drive'
+  | 'GoogleDrive'
   | 'Notion'
-  | 'Custom Webhook'
-  | 'Google Calendar'
+  | 'CustomWebhook'
+  | 'GoogleCalendar'
   | 'Trigger'
   | 'Action'
   | 'Wait'
 
-export type EditorCanvasCardType = {
+type EditorCanvasCardType = {
   title: string
   description: string
   completed: boolean
@@ -20,7 +20,7 @@ export type EditorCanvasCardType = {
   type: EditorCanvasTypes
 }
 
-export type EditorNode = {
+type EditorNode = {
   id: string
   type: EditorCanvasCardType['type']
   position: {
@@ -30,29 +30,54 @@ export type EditorNode = {
   data: EditorCanvasCardType
 }
 
-export type EditorActions =
+type EditorActions =
   | {
-    type: 'LOAD_DATA'
-    payload: {
-      elements: EditorNode[]
-      edges: {
-        id: string
-        source: string
-        target: string
-      }[]
+      type: 'LOAD_DATA'
+      payload: {
+        elements: EditorNode[]
+        edges: {
+          id: string
+          source: string
+          target: string
+        }[]
+      }
     }
-  }
   | {
-    type: 'UPDATE_NODE'
-    payload: {
-      elements: EditorNode[]
+      type: 'UPDATE_NODE'
+      payload: {
+        elements: EditorNode[]
+      }
     }
-  }
   | { type: 'REDO' }
   | { type: 'UNDO' }
   | {
-    type: 'SELECTED_ELEMENT'
-    payload: {
-      element: EditorNode
+      type: 'SELECTED_ELEMENT'
+      payload: {
+        element: EditorNode
+      }
     }
-  }
+
+type Editor = {
+  elements: EditorNode[]
+  edges: {
+    id: string
+    source: string
+    target: string
+  }[]
+  selectedNode: EditorNode
+}
+
+type EditorHistoryState = {
+  history: Editor[]
+  currentIndex: number
+}
+
+type EditorState = {
+  editor: Editor
+  history: EditorHistoryState
+}
+
+type EditorContextData = {
+  previewMode: boolean
+  setPreviewMode: (previewMode: boolean) => void
+}

@@ -1,9 +1,9 @@
-import React from "react";
-import Header from "../_components/Header";
-import WorkflowButton from "./_components/workflow-button";
-import WorkflowCard from "./_components/workflow-card";
+import React from 'react'
+import Header from '../_components/Header'
+import WorkflowButton from './_components/workflow-button'
+import WorkflowCard from './_components/workflow-card'
 
-type Props = {};
+type Props = {}
 
 const Workflows = (props: Props) => {
   return (
@@ -12,10 +12,15 @@ const Workflows = (props: Props) => {
         <WorkflowButton className="" />
       </Header>
       <section>
-        <WorkflowCard id="asdasd" title="automation workflow" desc="creating a test workflow" publish={false}/>
+        <WorkflowCard
+          id="asdasd"
+          title="automation workflow"
+          desc="creating a test workflow"
+          publish={false}
+        />
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default Workflows;
+export default Workflows

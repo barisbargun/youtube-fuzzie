@@ -1,9 +1,9 @@
-import { UserButton } from "@clerk/nextjs";
-import { MenuIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-type Props = {};
+import { UserButton } from '@clerk/nextjs'
+import { MenuIcon } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+type Props = {}
 
 const Navbar = async (props: Props) => {
   return (
@@ -50,7 +50,7 @@ const Navbar = async (props: Props) => {
           <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-5 text-sm font-medium text-white backdrop-blur-3xl">
             {
               //WIP:wire up user
-              true ? "Dashboard" : "Get Started"
+              true ? 'Dashboard' : 'Get Started'
             }
           </span>
         </Link>
@@ -61,7 +61,7 @@ const Navbar = async (props: Props) => {
         <MenuIcon className="md:hidden" />
       </aside>
     </header>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

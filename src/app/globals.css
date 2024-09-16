@@ -64,14 +64,14 @@
     display: none !important;
   }
   * {
-    @apply border-border box-border;
+    @apply box-border border-border;
   }
   html {
     @apply scroll-smooth antialiased;
   }
 
   body {
-    @apply bg-background text-foreground font-dm_sans;
+    @apply bg-background font-dm_sans text-foreground;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }
@@ -81,6 +81,6 @@
   }
 
   textarea {
-    @apply resize-none
+    @apply resize-none;
   }
 }

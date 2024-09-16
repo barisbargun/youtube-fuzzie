@@ -1,9 +1,9 @@
 interface IFileUploader {
-  url:string;
+  url: string
   pixels: {
-    width?: number;
-    height?: number;
-    x?: number;
-    y?: number;
+    width?: number
+    height?: number
+    x?: number
+    y?: number
   }
 }

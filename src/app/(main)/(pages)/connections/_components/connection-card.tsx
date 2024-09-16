@@ -5,13 +5,13 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@/components/ui";
-import { ConnectionsConfig } from "@/config/connections";
-import Image from "next/image";
-import React from "react";
+  CardTitle
+} from '@/components/ui'
+import { ConnectionsConfig } from '@/config/connections'
+import Image from 'next/image'
+import React from 'react'
 
-type Props = ConnectionsConfig & {};
+type Props = ConnectionsConfig & {}
 
 const ConnectionCard = ({
   img,
@@ -20,22 +20,22 @@ const ConnectionCard = ({
   connectionKey,
   accessTokenKey,
   alwaysTrue,
-  slackSpecial,
+  slackSpecial
 }: Props) => {
   return (
     <Card className="h-fit">
       <CardHeader>
         <Image src={img} width={40} height={40} alt="icon" />
       </CardHeader>
-      <CardContent className="flex sm:items-center justify-between max-sm:flex-col gap-2">
+      <CardContent className="flex justify-between gap-2 max-sm:flex-col sm:items-center">
         <div>
           <CardTitle>{title}</CardTitle>
           <CardDescription className="mt-1">{desc}</CardDescription>
         </div>
-        <Button className="font-medium w-fit max-sm:mt-1">Connect</Button>
+        <Button className="w-fit font-medium max-sm:mt-1">Connect</Button>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default ConnectionCard;
+export default ConnectionCard

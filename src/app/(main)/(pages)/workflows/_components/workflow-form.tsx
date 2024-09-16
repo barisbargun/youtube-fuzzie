@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import {
   Button,
   Form,
@@ -8,42 +8,39 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Textarea,
-} from "@/components/ui";
-import { workflowSchema } from "@/lib/validations/workflow-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  Textarea
+} from '@/components/ui'
+import { workflowSchema } from '@/lib/validations/workflow-schema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-type Props = {};
+type Props = {}
 
 const WorkflowForm = (props: Props) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
   const form = useForm<z.infer<typeof workflowSchema>>({
     resolver: zodResolver(workflowSchema),
     defaultValues: {
-      name: "",
-      desc: "",
-    },
-  });
+      name: '',
+      desc: ''
+    }
+  })
 
   async function onSubmit(values: z.infer<typeof workflowSchema>) {
-    setLoading(true);
+    setLoading(true)
     try {
     } catch (error) {
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full flex-col gap-8 text-left"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col gap-8 text-left">
         <FormField
           control={form.control}
           name="name"
@@ -51,11 +48,7 @@ const WorkflowForm = (props: Props) => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input
-                  disabled={loading}
-                  placeholder="Enter your name"
-                  {...field}
-                />
+                <Input disabled={loading} placeholder="Enter your name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,23 +72,19 @@ const WorkflowForm = (props: Props) => {
             </FormItem>
           )}
         />
-        <Button
-          disabled={loading}
-          type="submit"
-          className="mt-2 w-full font-semibold"
-        >
+        <Button disabled={loading} type="submit" className="mt-2 w-full font-semibold">
           {loading ? (
             <>
               <Loader2 className="mr-2 size-6 animate-spin" />
               <span>Saving</span>
             </>
           ) : (
-            "Save Settings"
+            'Save Settings'
           )}
         </Button>
       </form>
     </Form>
-  );
-};
+  )
+}
 
-export default WorkflowForm;
+export default WorkflowForm

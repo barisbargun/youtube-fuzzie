@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Button,
@@ -8,45 +8,45 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "@/components/ui";
-import { PlusIcon } from "@radix-ui/react-icons";
-import React from "react";
-import { useState } from "react";
-import FileUploader from "./components/file-uploader";
-import { useToast } from "@/hooks/use-toast";
-import getCroppedImg from "./lib/crop-image";
+  DialogTrigger
+} from '@/components/ui'
+import { PlusIcon } from '@radix-ui/react-icons'
+import React from 'react'
+import { useState } from 'react'
+import FileUploader from './components/file-uploader'
+import { useToast } from '@/hooks/use-toast'
+import getCroppedImg from './lib/crop-image'
 
 type Props = {
-  setImage: React.Dispatch<any>;
-};
+  setImage: React.Dispatch<any>
+}
 
 const FileUploaderDialog = ({ setImage }: Props) => {
-  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [isDialogOpen, setDialogOpen] = useState(false)
   const [cropImg, setCropImg] = useState<IFileUploader>({
-    url: "",
-    pixels: { x: 0, y: 0, width: 0, height: 0 },
-  });
-  const { toast } = useToast();
+    url: '',
+    pixels: { x: 0, y: 0, width: 0, height: 0 }
+  })
+  const { toast } = useToast()
 
   const handleSubmit = async () => {
     if (!cropImg?.url)
       return toast({
-        title: "No images",
-        description: "Please select a file",
-        variant: "destructive",
-      });
+        title: 'No images',
+        description: 'Please select a file',
+        variant: 'destructive'
+      })
 
-    const showImg = await getCroppedImg(cropImg.url, cropImg.pixels, 0);
-    setImage(showImg);
-    setCropImg({ url: "", pixels: { x: 0, y: 0, width: 0, height: 0 } });
-    setDialogOpen(false);
-  };
+    const showImg = await getCroppedImg(cropImg.url, cropImg.pixels, 0)
+    setImage(showImg)
+    setCropImg({ url: '', pixels: { x: 0, y: 0, width: 0, height: 0 } })
+    setDialogOpen(false)
+  }
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" >
+        <Button variant="outline" size="sm">
           <PlusIcon className="mr-2 size-5" />
           <span>Change Image</span>
         </Button>
@@ -60,17 +60,13 @@ const FileUploaderDialog = ({ setImage }: Props) => {
         </DialogHeader>
         <DialogFooter className="w-f flex !flex-col items-center gap-6 overflow-hidden">
           <FileUploader cropImg={cropImg} setCropImg={setCropImg} />
-          <Button
-            onClick={handleSubmit}
-            variant="secondary"
-            className="!ml-0 w-full"
-          >
+          <Button onClick={handleSubmit} variant="secondary" className="!ml-0 w-full">
             Done
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default FileUploaderDialog;
+export default FileUploaderDialog

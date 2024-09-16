@@ -1,30 +1,30 @@
-"use client";
-import { ModeToggle } from "@/components/global";
+'use client'
+import { ModeToggle } from '@/components/global'
 import {
   Separator,
   Tooltip,
   TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui";
-import { docsConfig } from "@/config/docs";
-import siteConfig from "@/config/site";
-import { cn } from "@/lib/utils";
-import { SidebarNavItem } from "@/types/nav";
-import { Database, GitBranch, LucideMousePointerClick } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { useCallback, useMemo } from "react";
+  TooltipTrigger
+} from '@/components/ui'
+import { docsConfig } from '@/config/docs'
+import siteConfig from '@/config/site'
+import { cn } from '@/lib/utils'
+import { SidebarNavItem } from '@/types/nav'
+import { Database, GitBranch, LucideMousePointerClick } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import React, { useCallback, useMemo } from 'react'
 
-type Props = {};
+type Props = {}
 
 const Sidebar = (props: Props) => {
-  const pathName = usePathname();
+  const pathName = usePathname()
 
   const isActive = useCallback(
     (v: SidebarNavItem) => v.href && pathName.includes(v.href),
-    [pathName],
-  );
+    [pathName]
+  )
 
   return (
     <nav className="flex flex-col items-center bg-background px-3 pb-5 pt-3">
@@ -39,10 +39,10 @@ const Sidebar = (props: Props) => {
                 <TooltipTrigger asChild>
                   <li>
                     <Link
-                      href={v.href || ""}
+                      href={v.href || ''}
                       className={cn(
-                        "group flex size-8 scale-125 items-center justify-center rounded-lg",
-                        isActive(v) && "bg-[#EEE0FF] dark:bg-[#2F006B]",
+                        'group flex size-8 scale-125 items-center justify-center rounded-lg',
+                        isActive(v) && 'bg-[#EEE0FF] dark:bg-[#2F006B]'
                       )}
                     >
                       <v.icon selected={isActive(v)} />
@@ -76,7 +76,7 @@ const Sidebar = (props: Props) => {
       <div className="mt-auto" />
       <ModeToggle />
     </nav>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

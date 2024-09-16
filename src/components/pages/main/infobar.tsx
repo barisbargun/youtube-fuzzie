@@ -1,22 +1,17 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui";
-import { UserButton } from "@clerk/nextjs";
-import { BookIcon, HeadphonesIcon, SearchIcon } from "lucide-react";
-import React from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui'
+import { UserButton } from '@clerk/nextjs'
+import { BookIcon, HeadphonesIcon, SearchIcon } from 'lucide-react'
+import React from 'react'
 
-type Props = {};
+type Props = {}
 
 const Infobar = (props: Props) => {
   const TriggerIcon = ({
     icon: Icon,
-    content,
+    content
   }: {
-    icon: typeof HeadphonesIcon;
-    content: string;
+    icon: typeof HeadphonesIcon
+    content: string
   }) => (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -24,7 +19,7 @@ const Infobar = (props: Props) => {
       </TooltipTrigger>
       <TooltipContent>{content}</TooltipContent>
     </Tooltip>
-  );
+  )
 
   return (
     <nav className="flex items-center gap-5 bg-background px-4 py-3">
@@ -42,7 +37,7 @@ const Infobar = (props: Props) => {
       </TooltipProvider>
       <UserButton />
     </nav>
-  );
-};
+  )
+}
 
-export default Infobar;
+export default Infobar

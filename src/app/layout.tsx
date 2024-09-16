@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import siteConfig from "@/config/site";
-import fonts from "./fonts";
-import { ClerkProvider } from "@clerk/nextjs";
-import Provider from "./provider";
+import type { Metadata } from 'next'
+import './globals.css'
+import siteConfig from '@/config/site'
+import fonts from './fonts'
+import { ClerkProvider } from '@clerk/nextjs'
+import { Toaster } from '@/components/ui'
+import { ThemeProvider } from 'next-themes'
 
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
+    template: `%s - ${siteConfig.name}`
+  }
   // metadataBase: new URL(siteConfig.url),
   // description: siteConfig.description,
   // keywords: [
@@ -55,20 +56,28 @@ export const metadata: Metadata = {
   //   apple: "/apple-touch-icon.png",
   // },
   // manifest: `${siteConfig.url}/site.webmanifest`,
-};
+}
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={fonts.join(" ")}>
-          <Provider>{children}</Provider>
+        <body className={fonts.join(' ')}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
-  );
+  )
 }
