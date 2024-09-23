@@ -1,11 +1,19 @@
-export interface EditorCanvasDefaultCards {
-  [key: string]: {
+export type EditorActionTypes = {
+  [key in EditorCanvasTypes]: {
     description: string
-    type: string
+    type: 'Trigger' | 'Action'
   }
 }
 
-export const editorCanvasDefaultCards: EditorCanvasDefaultCards = {
+export const editorActionItems: EditorActionTypes = {
+  GoogleDrive: {
+    description: 'Connect with Google drive to trigger actions or to create files and folders.',
+    type: 'Trigger'
+  },
+  Trigger: {
+    description: 'An event that starts the workflow.',
+    type: 'Trigger'
+  },
   Email: { description: 'Send and email to a user', type: 'Action' },
   Condition: {
     description: 'Boolean operator that creates different conditions lanes.',
@@ -16,10 +24,6 @@ export const editorCanvasDefaultCards: EditorCanvasDefaultCards = {
     type: 'Action'
   },
   Slack: { description: 'Send a notification to slack', type: 'Action' },
-  GoogleDrive: {
-    description: 'Connect with Google drive to trigger actions or to create files and folders.',
-    type: 'Trigger'
-  },
   Notion: { description: 'Create entries directly in notion.', type: 'Action' },
   CustomWebhook: {
     description: 'Connect any app that has an API key and send data to your applicaiton.',
@@ -32,10 +36,6 @@ export const editorCanvasDefaultCards: EditorCanvasDefaultCards = {
   GoogleCalendar: {
     description: 'Create a calendar invite.',
     type: 'Action'
-  },
-  Trigger: {
-    description: 'An event that starts the workflow.',
-    type: 'Trigger'
   },
   Action: {
     description: 'An event that happens after the workflow begins',

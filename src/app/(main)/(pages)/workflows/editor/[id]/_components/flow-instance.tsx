@@ -11,7 +11,7 @@ type Props = {
   nodes: any[]
 }
 
-const EditorFlowInstance = ({ children, edges, nodes }: Props) => {
+const FlowInstance = ({ children, edges, nodes }: Props) => {
   const pathname = usePathname()
   const [isFlow, setIsFlow] = useState([])
   const nodeConnection = useConnections()
@@ -55,4 +55,4 @@ const EditorFlowInstance = ({ children, edges, nodes }: Props) => {
   )
 }
 
-export default EditorFlowInstance
+export default FlowInstance

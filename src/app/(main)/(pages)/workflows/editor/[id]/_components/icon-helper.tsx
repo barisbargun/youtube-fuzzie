@@ -17,7 +17,7 @@ import {
 
 type Props = { type: EditorCanvasTypes }
 
-const EditorIconHelper = ({ type }: Props) => {
+const IconHelper = ({ type }: Props) => {
   switch (type) {
     case 'Email':
       return <Mail className="flex-shrink-0" size={30} />
@@ -46,4 +46,4 @@ const EditorIconHelper = ({ type }: Props) => {
   }
 }
 
-export default EditorIconHelper
+export default IconHelper

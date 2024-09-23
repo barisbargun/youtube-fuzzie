@@ -1,8 +1,8 @@
 import { useEditor } from '@/providers/editor-provider'
 import { Position, useNodeId } from '@xyflow/react'
 import React, { useMemo } from 'react'
-import EditorIconHelper from './editor-icon-helper'
-import EditorCustomHandle from './editor-custom-handle'
+import IconHelper from './icon-helper'
+import CustomHandle from './custom-handle'
 import { Card, CardHeader, CardTitle, CardDescription, Badge } from '@/components/ui'
 import clsx from 'clsx'
 
@@ -10,7 +10,7 @@ type Props = {
   data: EditorCanvasCardType
 }
 
-const EditorActionInit = ({ data }: Props) => {
+const ActionProvider = ({ data }: Props) => {
   const { dispatch, state } = useEditor()
   const nodeId = useNodeId()
 
@@ -33,7 +33,7 @@ const EditorActionInit = ({ data }: Props) => {
         className="relative max-w-[400px] dark:border-muted-foreground/70"
       >
         <CardHeader className="flex flex-row items-center gap-4">
-          <EditorIconHelper type={data.type} />
+          <IconHelper type={data.type} />
           <div>
             <CardTitle className="text-md">{data.title}</CardTitle>
             <div className="-mb-1 -mt-0.5">
@@ -54,9 +54,9 @@ const EditorActionInit = ({ data }: Props) => {
           })}
         ></div>
       </Card>
-      <EditorCustomHandle type="source" position={Position.Bottom} id="a" />
+      <CustomHandle type="source" position={Position.Bottom} id="a" />
     </>
   )
 }
 
-export default EditorActionInit
+export default ActionProvider

@@ -19,12 +19,12 @@ import { useEditor } from '@/providers/editor-provider'
 import { usePathname } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
 import { v4 } from 'uuid'
-import { editorCanvasDefaultCards } from '@/config/editor'
-import EditorActionItem from './_components/editor-action-item'
+import ActionItem from './_components/action-item'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui'
-import EditorFlowInstance from './_components/editor-flow-instance'
-import EditorCanvasSidebar from './_components/editor-canvas-sidebar'
-import EditorActionInit from './_components/editor-action-init'
+import FlowInstance from './_components/flow-instance'
+import CanvasSidebar from './_components/canvas-sidebar'
+import ActionProvider from './_components/action-provider'
+import { editorActionItems } from '@/config/editor'
 const initialNodes: EditorNode[] = []
 const initialEdges: { id: string; source: string; target: string }[] = []
 
@@ -82,7 +82,7 @@ const page = () => {
         position,
         data: {
           title: type,
-          description: editorCanvasDefaultCards[type].description,
+          description: editorActionItems[type].description,
           completed: false,
           current: false,
           metadata: {},
@@ -122,18 +122,18 @@ const page = () => {
 
   const nodeTypes = useMemo(
     () => ({
-      Action: EditorActionItem,
-      Trigger: EditorActionInit,
-      Email: EditorActionItem,
-      Condition: EditorActionItem,
-      AI: EditorActionItem,
-      Slack: EditorActionItem,
-      GoogleDrive: EditorActionInit,
-      Notion: EditorActionItem,
-      Discord: EditorActionItem,
-      CustomWebhook: EditorActionItem,
-      GoogleCalendar: EditorActionItem,
-      Wait: EditorActionItem
+      Action: ActionItem,
+      Trigger: ActionProvider,
+      Email: ActionItem,
+      Condition: ActionItem,
+      AI: ActionItem,
+      Slack: ActionItem,
+      GoogleDrive: ActionProvider,
+      Notion: ActionItem,
+      Discord: ActionItem,
+      CustomWebhook: ActionItem,
+      GoogleCalendar: ActionItem,
+      Wait: ActionItem
     }),
     []
   )
@@ -197,9 +197,9 @@ const page = () => {
             <Loader />
           </div>
         ) : (
-          <EditorFlowInstance edges={edges} nodes={nodes}>
-            <EditorCanvasSidebar nodes={nodes} />
-          </EditorFlowInstance>
+          <FlowInstance edges={edges} nodes={nodes}>
+            <CanvasSidebar nodes={nodes} />
+          </FlowInstance>
         )}
       </ResizablePanel>
     </ResizablePanelGroup>

@@ -4,7 +4,7 @@ import { Handle, HandleProps, useStore } from '@xyflow/react'
 
 type Props = HandleProps & { style?: CSSProperties }
 
-const EditorCustomHandle = (props: Props) => {
+const CustomHandle = (props: Props) => {
   const { state } = useEditor()
 
   return (
@@ -15,7 +15,6 @@ const EditorCustomHandle = (props: Props) => {
           (edge) => edge.source === e.source
         ).length
         const sourceNode = state.editor.elements.find((node) => node.id === e.source)
-        //target
         const targetFromHandleInState = state.editor.edges.filter(
           (edge) => edge.target === e.target
         ).length
@@ -30,4 +29,4 @@ const EditorCustomHandle = (props: Props) => {
   )
 }
 
-export default EditorCustomHandle
+export default CustomHandle

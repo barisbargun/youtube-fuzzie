@@ -3,6 +3,7 @@ type EditorCanvasTypes =
   | 'Condition'
   | 'AI'
   | 'Slack'
+  | 'Discord'
   | 'GoogleDrive'
   | 'Notion'
   | 'CustomWebhook'
@@ -32,30 +33,30 @@ type EditorNode = {
 
 type EditorActions =
   | {
-      type: 'LOAD_DATA'
-      payload: {
-        elements: EditorNode[]
-        edges: {
-          id: string
-          source: string
-          target: string
-        }[]
-      }
+    type: 'LOAD_DATA'
+    payload: {
+      elements: EditorNode[]
+      edges: {
+        id: string
+        source: string
+        target: string
+      }[]
     }
+  }
   | {
-      type: 'UPDATE_NODE'
-      payload: {
-        elements: EditorNode[]
-      }
+    type: 'UPDATE_NODE'
+    payload: {
+      elements: EditorNode[]
     }
+  }
   | { type: 'REDO' }
   | { type: 'UNDO' }
   | {
-      type: 'SELECTED_ELEMENT'
-      payload: {
-        element: EditorNode
-      }
+    type: 'SELECTED_ELEMENT'
+    payload: {
+      element: EditorNode
     }
+  }
 
 type Editor = {
   elements: EditorNode[]
