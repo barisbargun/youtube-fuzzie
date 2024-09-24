@@ -1,11 +1,11 @@
-export type EditorActionTypes = {
+export type EditorActionItems = {
   [key in EditorCanvasTypes]: {
     description: string
-    type: 'Trigger' | 'Action'
+    type: EditorActionTypes
   }
 }
 
-export const editorActionItems: EditorActionTypes = {
+export const editorActionItems: EditorActionItems = {
   GoogleDrive: {
     description: 'Connect with Google drive to trigger actions or to create files and folders.',
     type: 'Trigger'

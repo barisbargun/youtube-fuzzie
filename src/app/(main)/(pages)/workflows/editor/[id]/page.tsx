@@ -28,6 +28,21 @@ import { editorActionItems } from '@/config/editor'
 const initialNodes: EditorNode[] = []
 const initialEdges: { id: string; source: string; target: string }[] = []
 
+const nodeTypes = {
+  Action: ActionItem,
+  Trigger: ActionProvider,
+  Email: ActionItem,
+  Condition: ActionItem,
+  AI: ActionItem,
+  Slack: ActionItem,
+  GoogleDrive: ActionProvider,
+  Notion: ActionItem,
+  Discord: ActionItem,
+  CustomWebhook: ActionItem,
+  GoogleCalendar: ActionItem,
+  Wait: ActionItem
+}
+
 const page = () => {
   const { dispatch, state } = useEditor()
   const [loading, setLoading] = useState(false)
@@ -38,22 +53,22 @@ const page = () => {
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+  const [selectedEdge, setSelectedEdge] = useState<any>(null)
+  const onConnect = useCallback(
+    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
+    []
+  )
 
   const onDragOver = useCallback((event: any) => {
     event.preventDefault()
     event.dataTransfer.dropEffect = 'move'
   }, [])
 
-  const onConnect = useCallback(
-    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
-    []
-  )
-
   const onDrop = useCallback(
     (event: any) => {
       event.preventDefault()
 
-      const type: EditorCanvasCardType['type'] = event.dataTransfer.getData('application/reactflow')
+      const type: EditorActionTypes = event.dataTransfer.getData('application/reactflow')
 
       // check if the dropped element is valid
       if (typeof type === 'undefined' || !type) {
@@ -105,12 +120,11 @@ const page = () => {
             current: false,
             description: '',
             metadata: {},
-            title: '',
-            type: 'Trigger'
+            title: undefined
           },
           id: '',
           position: { x: 0, y: 0 },
-          type: 'Trigger'
+          type: undefined
         }
       }
     })
@@ -119,24 +133,6 @@ const page = () => {
   useEffect(() => {
     dispatch({ type: 'LOAD_DATA', payload: { edges, elements: nodes } })
   }, [nodes, edges])
-
-  const nodeTypes = useMemo(
-    () => ({
-      Action: ActionItem,
-      Trigger: ActionProvider,
-      Email: ActionItem,
-      Condition: ActionItem,
-      AI: ActionItem,
-      Slack: ActionItem,
-      GoogleDrive: ActionProvider,
-      Notion: ActionItem,
-      Discord: ActionItem,
-      CustomWebhook: ActionItem,
-      GoogleCalendar: ActionItem,
-      Wait: ActionItem
-    }),
-    []
-  )
 
   // const onGetWorkFlow = async () => {
   //   setLoading(true)
@@ -152,6 +148,31 @@ const page = () => {
   // useEffect(() => {
   //   onGetWorkFlow()
   // }, [])
+
+  const handleKeyDown = useCallback(
+    (event: any) => {
+      const selectedNode = state.editor.selectedNode
+      if (event.key === 'Delete') {
+        if (selectedNode.id) {
+          setNodes((nds) => nds.filter((n) => n.id !== selectedNode.id))
+          setEdges((eds) =>
+            eds.filter((e) => e.source !== selectedNode.id && e.target !== selectedNode.id)
+          )
+          handleClickCanvas()
+        } else if (selectedEdge) {
+          setEdges((eds) => eds.filter((e) => e.id !== selectedEdge.id))
+        }
+      }
+    },
+    [state.editor.selectedNode, selectedEdge]
+  )
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [handleKeyDown])
 
   return (
     <ResizablePanelGroup direction="horizontal">
@@ -176,6 +197,7 @@ const page = () => {
                 fitView
                 onClick={handleClickCanvas}
                 nodeTypes={nodeTypes}
+                onEdgeClick={(event, element) => setSelectedEdge(element)}
               >
                 <Controls position="top-left" className="text-neutral-900" />
                 <MiniMap position="bottom-left" className="!bg-background" zoomable pannable />
@@ -190,8 +212,8 @@ const page = () => {
           </div>
         </div>
       </ResizablePanel>
-      <ResizableHandle/>
-      <ResizablePanel defaultSize={30} className="relative sm:block max-h-screen">
+      <ResizableHandle />
+      <ResizablePanel defaultSize={30} className="relative max-h-screen sm:block">
         {loading ? (
           <div className="flex-center left-0 top-0 h-full w-full">
             <Loader />

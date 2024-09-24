@@ -15,7 +15,7 @@ import {
   Zap
 } from 'lucide-react'
 
-type Props = { type: EditorCanvasTypes }
+type Props = { type?: EditorCanvasTypes }
 
 const IconHelper = ({ type }: Props) => {
   switch (type) {

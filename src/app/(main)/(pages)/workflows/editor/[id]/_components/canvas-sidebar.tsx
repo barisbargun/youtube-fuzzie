@@ -2,7 +2,7 @@ import { Separator, Tabs, TabsContent, TabsList, TabsTrigger } from '@/component
 import { editorActionItems } from '@/config/editor'
 import { useConnections } from '@/providers/connections-provider'
 import { useEditor } from '@/providers/editor-provider'
-import React from 'react'
+import React, { useMemo } from 'react'
 import CanvasSidebarCard from './canvas-sidebar-card'
 
 type Props = {
@@ -13,7 +13,7 @@ const CanvasSidebar = ({ nodes }: Props) => {
   const { state } = useEditor()
   const nodeConnection = useConnections()
   // const {googleFile, setSlackChannels} =
-
+  const hasTrigger = useMemo(() => nodes.find((n) => n.type == 'Trigger'), [nodes])
   return (
     <aside className="h-full px-4">
       <Tabs defaultValue="actions" className="h-full overflow-scroll pb-24">
@@ -24,10 +24,8 @@ const CanvasSidebar = ({ nodes }: Props) => {
         <Separator />
         <TabsContent value="actions">
           {Object.entries(editorActionItems)
-            .filter(
-              ([_, cardType]) =>
-                (!nodes.length && cardType.type === 'Trigger') ||
-                (nodes.length && cardType.type === 'Action')
+            .filter(([_, cardType]) =>
+              hasTrigger ? cardType.type == 'Action' : cardType.type == 'Trigger'
             )
             .map(([key, value]) => (
               <CanvasSidebarCard

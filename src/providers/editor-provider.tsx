@@ -97,8 +97,6 @@ const Context = createContext<{
 const EditorProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(editorReducer, initialState)
 
-  console.log('state', state)
-
   return (
     <Context.Provider
       value={{

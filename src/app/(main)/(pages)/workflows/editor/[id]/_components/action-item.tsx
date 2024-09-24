@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardDescription, Badge } from '@/component
 import clsx from 'clsx'
 
 type Props = {
-  data: EditorCanvasCardType
+  data: EditorNode['data']
 }
 
 const ActionItem = ({ data }: Props) => {
@@ -33,7 +33,7 @@ const ActionItem = ({ data }: Props) => {
         className="relative max-w-[400px] dark:border-muted-foreground/70"
       >
         <CardHeader className="flex flex-row items-center gap-4">
-          <IconHelper type={data.type} />
+          <IconHelper type={data.title} />
           <div>
             <CardTitle className="text-md">{data.title}</CardTitle>
             <div className="-mb-1 -mt-0.5">
@@ -44,7 +44,7 @@ const ActionItem = ({ data }: Props) => {
           </div>
         </CardHeader>
         <Badge variant="secondary" className="absolute right-2 top-2">
-          {data.type}
+          {data.title}
         </Badge>
         <div
           className={clsx('absolute left-3 top-4 h-2 w-2 rounded-full', {

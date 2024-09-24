@@ -1,3 +1,6 @@
+type EditorActionTypes = 'Trigger' | 'Action'
+
+
 type EditorCanvasTypes =
   | 'Email'
   | 'Condition'
@@ -12,23 +15,21 @@ type EditorCanvasTypes =
   | 'Action'
   | 'Wait'
 
-type EditorCanvasCardType = {
-  title: string
-  description: string
-  completed: boolean
-  current: boolean
-  metadata: any
-  type: EditorCanvasTypes
-}
 
 type EditorNode = {
   id: string
-  type: EditorCanvasCardType['type']
+  type?: EditorActionTypes
   position: {
     x: number
     y: number
   }
-  data: EditorCanvasCardType
+  data: {
+    title?: EditorCanvasTypes
+    description: string
+    completed: boolean
+    current: boolean
+    metadata: any
+  }
 }
 
 type EditorActions =
