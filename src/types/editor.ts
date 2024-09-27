@@ -32,7 +32,7 @@ type EditorNode = {
   }
 }
 
-type EditorActions =
+type EditorReducer =
   | {
     type: 'LOAD_DATA'
     payload: {

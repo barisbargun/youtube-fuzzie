@@ -8,12 +8,12 @@ type Props = {
   type: EditorActionTypes
 }
 
-const CanvasSidebarCard = ({ title, desc, type }: Props) => {
+const CanvasSidebarActionCard = ({ title, desc, type }: Props) => {
   return (
     <Card
       draggable
       className="mb-4 w-full cursor-grab border-black bg-neutral-100 last:mb-0 dark:border-neutral-700 dark:bg-neutral-900"
-      onDragStart={(event) => onDragStart(event, type)}
+      onDragStart={(event) => onDragStart(event, title)}
     >
       <CardHeader className="flex flex-row items-center gap-4 p-4">
         <IconHelper type={title} />
@@ -26,4 +26,4 @@ const CanvasSidebarCard = ({ title, desc, type }: Props) => {
   )
 }
 
-export default CanvasSidebarCard
+export default CanvasSidebarActionCard

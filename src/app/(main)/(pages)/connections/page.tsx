@@ -1,8 +1,7 @@
 import React from 'react'
-import Header from '../_components/Header'
+import Header from '../_components/header'
 import { connectionsConfig } from '@/config/connections'
-import ConnectionCard from './_components/connection-card'
-import { CardContainer } from '@/components/ui'
+import ConnectionCard from '../_components/connection-card'
 
 type Props = {
   searchParams?: { [key: string]: string | undefined }

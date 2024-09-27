@@ -11,17 +11,11 @@ import { ConnectionsConfig } from '@/config/connections'
 import Image from 'next/image'
 import React from 'react'
 
-type Props = ConnectionsConfig & {}
+type Props = Pick<ConnectionsConfig, 'img' | 'title' | 'desc'> & {
+  connected: {} & any
+}
 
-const ConnectionCard = ({
-  img,
-  title,
-  desc,
-  connectionKey,
-  accessTokenKey,
-  alwaysTrue,
-  slackSpecial
-}: Props) => {
+const ConnectionCard = ({ img, title, desc }: Props) => {
   return (
     <Card className="h-fit">
       <CardHeader>

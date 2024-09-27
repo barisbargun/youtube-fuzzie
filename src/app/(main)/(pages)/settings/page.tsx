@@ -4,7 +4,7 @@ import { currentUser } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { z } from 'zod'
 import { userUpdateSchema } from '@/lib/validations'
-import Header from '../_components/Header'
+import Header from '../_components/header'
 
 const Settings = async () => {
   const authUser = await currentUser()

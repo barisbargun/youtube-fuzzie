@@ -2,7 +2,7 @@
 
 import React, { createContext, Dispatch, useContext, useReducer } from 'react'
 
-const initialEditorState: EditorState['editor'] = {
+const initialEditorState: Editor = {
   elements: [],
   selectedNode: {
     data: {
@@ -10,8 +10,7 @@ const initialEditorState: EditorState['editor'] = {
       current: false,
       description: '',
       metadata: {},
-      title: '',
-      type: 'Trigger'
+      title: undefined,
     },
     id: '',
     position: { x: 0, y: 0 },
@@ -30,7 +29,7 @@ const initialState: EditorState = {
   history: initialHistoryState
 }
 
-const editorReducer = (state: EditorState = initialState, action: EditorActions): EditorState => {
+const editorReducer = (state: EditorState = initialState, action: EditorReducer): EditorState => {
   switch (action.type) {
     case 'REDO':
       if (state.history.currentIndex < state.history.history.length - 1) {
@@ -88,7 +87,7 @@ const editorReducer = (state: EditorState = initialState, action: EditorActions)
 
 const Context = createContext<{
   state: EditorState
-  dispatch: Dispatch<EditorActions>
+  dispatch: Dispatch<EditorReducer>
 }>({
   state: initialState,
   dispatch: () => undefined

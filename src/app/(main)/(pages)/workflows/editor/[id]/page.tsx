@@ -68,16 +68,16 @@ const page = () => {
     (event: any) => {
       event.preventDefault()
 
-      const type: EditorActionTypes = event.dataTransfer.getData('application/reactflow')
+      const title: EditorActionTypes = event.dataTransfer.getData('application/reactflow')
 
       // check if the dropped element is valid
-      if (typeof type === 'undefined' || !type) {
-        return
-      }
+      if (!title) return
+
+      const item = editorActionItems[title]
 
       const triggerAlreadyExists = state.editor.elements.find((node) => node.type === 'Trigger')
 
-      if (type === 'Trigger' && triggerAlreadyExists) {
+      if (item.type === 'Trigger' && triggerAlreadyExists) {
         toast({
           title: "'Only one trigger can be added to automations at the moment'",
           variant: 'destructive'
@@ -93,15 +93,14 @@ const page = () => {
 
       const newNode = {
         id: v4(),
-        type,
+        type: item.type,
         position,
         data: {
-          title: type,
-          description: editorActionItems[type].description,
+          title: title,
+          description: item.description,
           completed: false,
           current: false,
-          metadata: {},
-          type: type
+          metadata: {}
         }
       }
       //@ts-ignore
