@@ -1,9 +1,8 @@
 import ConnectionCard from '@/app/(main)/(pages)/_components/connection-card'
-import { Accordion } from '@/components/ui'
 import { MultiSelect } from '@/components/ui/multiple-select'
 import { ConnectionsConfig } from '@/config/connections'
 import { useConnections } from '@/providers/connections-provider'
-import { useConnectionsStore } from '@/store/connections'
+import { useConnectionStore } from '@/store/connections'
 import React, { useMemo } from 'react'
 
 type Props = ConnectionsConfig & {}
@@ -17,7 +16,7 @@ const CanvasSidebarSettingCard = ({
   alwaysTrue,
   slackSpecial
 }: Props) => {
-  const { slackChannels, selectedSlackChannels, setSelectedSlackChannels } = useConnectionsStore()
+  const { slackChannels, selectedSlackChannels, setSelectedSlackChannels } = useConnectionStore()
   const connection = useConnections()
   const connectionData = connection[connectionKey]
 

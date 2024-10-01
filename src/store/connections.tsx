@@ -7,7 +7,7 @@ const initialState: State = {
   selectedSlackChannels: []
 }
 
-export const useConnectionsStore = create<State & Actions>()(
+export const useConnectionStore = create<State & Actions>()(
   immer((set) => ({
     ...initialState,
     setGoogleFile: (googleFile) => set({ googleFile }),

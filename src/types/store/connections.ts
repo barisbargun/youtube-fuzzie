@@ -9,11 +9,11 @@ interface Option {
 type State = {
   googleFile: any;
   slackChannels: Option[];
-  selectedSlackChannels: Option[];
+  selectedSlackChannels: string[];
 }
 
 type Actions = {
   setGoogleFile: (googleFile: any) => void
   setSlackChannels: (slackChannels: Option[]) => void
-  setSelectedSlackChannels: (selectedSlackChannels: Option[]) => void
+  setSelectedSlackChannels: (selectedSlackChannels: string[]) => void
 }

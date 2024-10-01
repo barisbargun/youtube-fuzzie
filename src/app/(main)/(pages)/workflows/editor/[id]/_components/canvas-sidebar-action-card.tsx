@@ -1,5 +1,5 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui'
-import { onDragStart } from '@/lib/react-flow'
+import { onDragStart } from '@/lib/editor'
 import IconHelper from './icon-helper'
 
 type Props = {
