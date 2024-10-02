@@ -10,9 +10,7 @@ type Props = {
 const EditorLayout = ({ children }: Props) => {
   return (
     <EditorProvider>
-      <ConnectionsProvider>
-        <EditorCanvas />
-      </ConnectionsProvider>
+      <ConnectionsProvider>{children}</ConnectionsProvider>
     </EditorProvider>
   )
 }
