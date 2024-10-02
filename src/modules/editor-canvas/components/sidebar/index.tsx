@@ -4,15 +4,15 @@ import { editorActionItems } from '@/config/editor'
 import { useConnections } from '@/providers/connections-provider'
 import { useEditor } from '@/providers/editor-provider'
 import React, { useEffect, useMemo } from 'react'
-import CanvasSidebarActionCard from './canvas-sidebar-action-card'
-import CanvasSidebarAccordionAccount from './canvas-sidebar-accordion-account'
 import { connectionsConfig } from '@/config/connections'
+import ActionCard from './action-card'
+import AccordionAccount from './accordion-account'
 
 type Props = {
   nodes: EditorNode[]
 }
 
-const CanvasSidebar = ({ nodes }: Props) => {
+const Sidebar = ({ nodes }: Props) => {
   const { state } = useEditor()
   const connection = useConnections()
   const hasTrigger = useMemo(() => nodes.find((n) => n.type == 'Trigger'), [nodes])
@@ -40,7 +40,7 @@ const CanvasSidebar = ({ nodes }: Props) => {
               hasTrigger ? cardType.type == 'Action' : cardType.type == 'Trigger'
             )
             .map(([key, value]) => (
-              <CanvasSidebarActionCard
+              <ActionCard
                 key={key}
                 title={key as EditorCanvasTypes}
                 desc={value.description}
@@ -62,14 +62,14 @@ const CanvasSidebar = ({ nodes }: Props) => {
                     <AccordionTrigger>Account</AccordionTrigger>
                     {state.editor.selectedNode.id && (
                       <AccordionContent>
-                        <CanvasSidebarAccordionAccount {...state} {...selectedConnection} />
+                        <AccordionAccount {...state} {...selectedConnection} />
                       </AccordionContent>
                     )}
                   </AccordionItem>
                   <AccordionItem value="action">
                     <AccordionTrigger>Action</AccordionTrigger>
                     <AccordionContent>
-                      <CanvasSidebarAccordionAccount {...state} {...selectedConnection} />
+                      <AccordionAccount {...state} {...selectedConnection} />
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
@@ -82,4 +82,4 @@ const CanvasSidebar = ({ nodes }: Props) => {
   )
 }
 
-export default CanvasSidebar
+export default Sidebar

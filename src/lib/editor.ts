@@ -24,8 +24,8 @@ export const onContentChange = (
 
 export const onAddTemplate = (
   connection: ConnectionProviderProps,
+  template: string,
   title: EditorCanvasTypes,
-  template: string
 ) => {
   const setNode: Partial<Record<EditorCanvasTypes, Dispatch<any>>> = {
     Slack: connection.setSlackNode,

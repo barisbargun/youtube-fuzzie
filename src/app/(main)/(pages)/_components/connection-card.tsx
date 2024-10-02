@@ -1,7 +1,6 @@
 import {
   Button,
   Card,
-  CardBody,
   CardContent,
   CardDescription,
   CardHeader,
@@ -12,7 +11,7 @@ import Image from 'next/image'
 import React from 'react'
 
 type Props = Pick<ConnectionsConfig, 'img' | 'title' | 'desc'> & {
-  connected: {} & any
+  connected?: {} & any
 }
 
 const ConnectionCard = ({ img, title, desc }: Props) => {

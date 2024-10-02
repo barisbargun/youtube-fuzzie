@@ -4,7 +4,7 @@ import { Button, ButtonProps } from '@/components/ui'
 import { cn } from '@/lib/utils'
 import { PlusIcon } from '@radix-ui/react-icons'
 import React, { useEffect, useState } from 'react'
-import WorkflowForm from './workflow-form'
+import WorkflowForm from './form'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 type Props = ButtonProps & {}

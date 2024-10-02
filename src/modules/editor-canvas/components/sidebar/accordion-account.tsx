@@ -1,3 +1,4 @@
+// WIP: Move ConnectionCard to the components folder
 import ConnectionCard from '@/app/(main)/(pages)/_components/connection-card'
 import { MultiSelect } from '@/components/ui/multiple-select'
 import { ConnectionsConfig } from '@/config/connections'
@@ -7,7 +8,7 @@ import React, { useMemo } from 'react'
 
 type Props = ConnectionsConfig & {}
 
-const CanvasSidebarSettingCard = ({
+const AccordionAccount = ({
   connectionKey,
   desc,
   img,
@@ -51,4 +52,4 @@ const CanvasSidebarSettingCard = ({
   )
 }
 
-export default CanvasSidebarSettingCard
+export default AccordionAccount
