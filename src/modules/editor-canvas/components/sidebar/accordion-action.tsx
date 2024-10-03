@@ -5,30 +5,33 @@ import { useConnectionStore } from '@/store/connections'
 import axios from 'axios'
 import { useEffect, useMemo, useState } from 'react'
 import GoogleFileDetails from './google-file-details'
+import { useConnections } from '@/providers/connections-provider'
+import GoogleDriveFiles from './google-drive-files'
+import ActionButton from './action-button'
 
 type ConnProps = ConnectionProviderProps
 type Props = {
   state: EditorState
-  connection: ConnProps
 }
 
-const AccordionAction = ({ state, connection }: Props) => {
+const AccordionAction = ({ state }: Props) => {
+  const { googleFile, setGoogleFile } = useConnectionStore()
+  const connection = useConnections()
+
   const title = state.editor.selectedNode.data.title
-  const { googleFile, setGoogleFile, selectedSlackChannels, setSelectedSlackChannels } =
-    useConnectionStore()
   const { toast } = useToast()
   const [provider, setProvider] = useState<any>()
 
   useEffect(() => {
     const request = async () => {
-      const response = await axios.get('/api/drive')
-
-      if (response) {
-        toast({ title: 'Fetched File' })
-        setGoogleFile(response.data.message.files[0])
-      } else {
-        toast({ title: 'Failed to fetch file' })
-      }
+      try {
+        const response = await axios.get('/api/drive')
+        if (response) {
+          toast({ title: 'Fetched File' })
+          setGoogleFile(response.data.message.files[0])
+        }
+      } catch (error) {}
+      toast({ title: 'Failed to fetch file' })
     }
     request()
   }, [])
@@ -66,23 +69,25 @@ const AccordionAction = ({ state, connection }: Props) => {
             <CardDescription>{(provider as ConnProps['discordNode']).guildName}</CardDescription>
           </CardHeader>
         )}
-        <div>
-          <p>{title === 'Notion' ? 'Values to be stored' : 'Message'}</p>
-          <Input
-            value={provider.content}
-            onChange={(e) => onContentChange(connection, e.target.value, title)}
-          />
-          {JSON.stringify(googleFile) !== '{}' && title !== 'GoogleDrive' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Drive File</CardTitle>
-              </CardHeader>
-              <CardContent>
+        <Card>
+          <CardHeader>
+            <CardTitle>{title === 'Notion' ? 'Values to be stored' : 'Message'}</CardTitle>
+          </CardHeader>
+          <CardContent className='flex flex-col items-center gap-4'>
+            <Input
+              value={provider?.content || ''}
+              onChange={(e) => onContentChange(connection, e.target.value, title)}
+            />
+            {JSON.stringify(googleFile) !== '{}' && title !== 'GoogleDrive' && (
+              <>
+                <p>Drive File</p>
                 <GoogleFileDetails title={title} connection={connection} googleFile={googleFile} />
-              </CardContent>
-            </Card>
-          )}
-        </div>
+              </>
+            )}
+            {title === 'GoogleDrive' && <GoogleDriveFiles />}
+            <ActionButton service={title} />
+          </CardContent>
+        </Card>
       </Card>
     </>
   )

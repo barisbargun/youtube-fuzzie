@@ -12,13 +12,16 @@ const GoogleDriveFiles = () => {
 
   const handleRequest = async () => {
     setLoading(true)
-    const res = await axios.get('/api/drive-activity')
-    if (res) {
-      toast({ title: 'Google Drive Files', description: 'Files fetched successfully' })
-      setIsListening(true)
+    try {
+      const res = await axios.get('/api/drive-activity')
+      if (res) {
+        toast({ title: 'Google Drive Files', description: 'Files fetched successfully' })
+        setIsListening(true)
+      }
+    } catch (error) {
+      setIsListening(false)
     }
     setLoading(false)
-    setIsListening(false)
   }
 
   useEffect(() => {
@@ -34,7 +37,7 @@ const GoogleDriveFiles = () => {
       {isListening ? (
         <p>Listening...</p>
       ) : (
-        <Button disabled={loading} onClick={handleRequest}>
+        <Button disabled={loading} onClick={handleRequest} variant='outline'>
           {loading ? <Loader /> : 'Create Listener'}
         </Button>
       )}

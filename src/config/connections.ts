@@ -1,4 +1,4 @@
-export type ConnectionTypes = 'Google Drive' | 'Notion' | 'Slack' | 'Discord'
+export type ConnectionTypes = 'GoogleDrive' | 'Notion' | 'Slack' | 'Discord'
 
 export interface ConnectionsConfig {
   img: string
@@ -12,7 +12,7 @@ export interface ConnectionsConfig {
 
 export const connectionsConfig: ConnectionsConfig[] = [
   {
-    title: 'Google Drive',
+    title: 'GoogleDrive',
     desc: 'Connect your google drive to listen to folder changes',
     img: '/googleDrive.png',
     connectionKey: 'googleNode',

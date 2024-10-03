@@ -7,6 +7,7 @@ import React, { useEffect, useMemo } from 'react'
 import { connectionsConfig } from '@/config/connections'
 import ActionCard from './action-card'
 import AccordionAccount from './accordion-account'
+import AccordionAction from './accordion-action'
 
 type Props = {
   nodes: EditorNode[]
@@ -14,7 +15,6 @@ type Props = {
 
 const Sidebar = ({ nodes }: Props) => {
   const { state } = useEditor()
-  const connection = useConnections()
   const hasTrigger = useMemo(() => nodes.find((n) => n.type == 'Trigger'), [nodes])
 
   // useEffect(() => {
@@ -69,7 +69,7 @@ const Sidebar = ({ nodes }: Props) => {
                   <AccordionItem value="action">
                     <AccordionTrigger>Action</AccordionTrigger>
                     <AccordionContent>
-                      <AccordionAccount {...state} {...selectedConnection} />
+                      <AccordionAction state={state} />
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
