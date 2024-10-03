@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState } from 'react'
 
-const InitialValues: ConnectionProviderProps = {
+const InitialValues: NodeProviderProps = {
   discordNode: {
     webhookURL: '',
     content: '',
@@ -42,7 +42,7 @@ const InitialValues: ConnectionProviderProps = {
 
 const Context = createContext(InitialValues)
 
-export const ConnectionsProvider = ({ children }: {children:React.ReactNode}) => {
+export const NodeProvider = ({ children }: {children:React.ReactNode}) => {
   const [discordNode, setDiscordNode] = useState(InitialValues.discordNode)
   const [googleNode, setGoogleNode] = useState(InitialValues.googleNode)
   const [notionNode, setNotionNode] = useState(InitialValues.notionNode)
@@ -68,10 +68,10 @@ export const ConnectionsProvider = ({ children }: {children:React.ReactNode}) =>
   return <Context.Provider value={values}>{children}</Context.Provider>
 }
 
-export const useConnections = () => {
+export const useNode = () => {
   const context = useContext(Context)
   if (!context) {
-    throw new Error('useEditor Hook must be used within the editor Provider')
+    throw new Error('useNode Hook must be used within the editor Provider')
   }
   return context
 }

@@ -1,5 +1,5 @@
-import { useConnections } from '@/providers/connections-provider'
-import { useConnectionStore } from '@/store/connections'
+import { useNode } from '@/providers/node-provider'
+import { useNodeStore } from '@/store/node-store'
 import React from 'react'
 
 type Props = {
@@ -7,8 +7,8 @@ type Props = {
 }
 
 const ActionButton = ({ service }: Props) => {
-  const connection = useConnections()
-  const { selectedSlackChannels, setSelectedSlackChannels } = useConnectionStore()
+  const connection = useNode()
+  const { selectedSlackChannels, setSelectedSlackChannels } = useNodeStore()
   return <div>ActionButton</div>
 }
 

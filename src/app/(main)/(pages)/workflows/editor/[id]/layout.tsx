@@ -1,5 +1,5 @@
 import EditorCanvas from '@/modules/editor-canvas'
-import { ConnectionsProvider } from '@/providers/connections-provider'
+import { NodeProvider } from '@/providers/node-provider'
 import EditorProvider from '@/providers/editor-provider'
 import React from 'react'
 
@@ -10,7 +10,7 @@ type Props = {
 const EditorLayout = ({ children }: Props) => {
   return (
     <EditorProvider>
-      <ConnectionsProvider>{children}</ConnectionsProvider>
+      <NodeProvider>{children}</NodeProvider>
     </EditorProvider>
   )
 }

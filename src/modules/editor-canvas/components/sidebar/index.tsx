@@ -1,7 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui'
 import { Separator, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui'
 import { editorActionItems } from '@/config/editor'
-import { useConnections } from '@/providers/connections-provider'
+import { useNode } from '@/providers/node-provider'
 import { useEditor } from '@/providers/editor-provider'
 import React, { useEffect, useMemo } from 'react'
 import { connectionsConfig } from '@/config/connections'

@@ -2,7 +2,7 @@ import { useToast } from '@/hooks/use-toast'
 import { usePathname } from 'next/navigation'
 import React, { useCallback, useState } from 'react'
 import { onCreateNodesEdges, onFlowPublish } from '../actions/editor-db'
-import { useConnections } from '@/providers/connections-provider'
+import { useNode } from '@/providers/node-provider'
 import { Button } from '@/components/ui'
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 const FlowInstance = ({ children, edges, nodes }: Props) => {
   const pathname = usePathname()
   const [isFlow, setIsFlow] = useState([])
-  const nodeConnection = useConnections()
+  const nodeConnection = useNode()
   const { toast } = useToast()
 
   const onFlowAutomation = useCallback(async () => {

@@ -2,8 +2,8 @@
 import ConnectionCard from '@/app/(main)/(pages)/_components/connection-card'
 import { MultiSelect } from '@/components/ui/multiple-select'
 import { ConnectionsConfig } from '@/config/connections'
-import { useConnections } from '@/providers/connections-provider'
-import { useConnectionStore } from '@/store/connections'
+import { useNode } from '@/providers/node-provider'
+import { useNodeStore } from '@/store/node-store'
 import React, { useMemo } from 'react'
 
 type Props = ConnectionsConfig & {}
@@ -17,8 +17,8 @@ const AccordionAccount = ({
   alwaysTrue,
   slackSpecial
 }: Props) => {
-  const { slackChannels, selectedSlackChannels, setSelectedSlackChannels } = useConnectionStore()
-  const connection = useConnections()
+  const { slackChannels, selectedSlackChannels, setSelectedSlackChannels } = useNodeStore()
+  const connection = useNode()
   const connectionData = connection[connectionKey]
 
   const isConnected = useMemo(

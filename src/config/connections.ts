@@ -4,7 +4,7 @@ export interface ConnectionsConfig {
   img: string
   title: ConnectionTypes
   desc: string
-  connectionKey: keyof ConnectionProviderProps
+  connectionKey: keyof NodeProviderProps
   accessTokenKey?: string
   alwaysTrue?: boolean
   slackSpecial?: boolean

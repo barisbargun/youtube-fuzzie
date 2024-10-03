@@ -1,4 +1,4 @@
-type ConnectionProviderProps = {
+type NodeProviderProps = {
   discordNode: {
     webhookURL: string
     content: string

@@ -9,7 +9,7 @@ export const onDragStart = (
 }
 
 export const onContentChange = (
-  connection: ConnectionProviderProps,
+  connection: NodeProviderProps,
   value: string,
   title: EditorCanvasTypes,
 ) => {
@@ -23,7 +23,7 @@ export const onContentChange = (
 }
 
 export const onAddTemplate = (
-  connection: ConnectionProviderProps,
+  connection: NodeProviderProps,
   template: string,
   title: EditorCanvasTypes,
 ) => {

@@ -1,22 +1,22 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Input } from '@/components/ui'
 import { useToast } from '@/hooks/use-toast'
 import { onContentChange } from '@/lib/editor'
-import { useConnectionStore } from '@/store/connections'
+import { useNodeStore } from '@/store/node-store'
 import axios from 'axios'
 import { useEffect, useMemo, useState } from 'react'
 import GoogleFileDetails from './google-file-details'
-import { useConnections } from '@/providers/connections-provider'
+import { useNode } from '@/providers/node-provider'
 import GoogleDriveFiles from './google-drive-files'
 import ActionButton from './action-button'
 
-type ConnProps = ConnectionProviderProps
+type ConnProps = NodeProviderProps
 type Props = {
   state: EditorState
 }
 
 const AccordionAction = ({ state }: Props) => {
-  const { googleFile, setGoogleFile } = useConnectionStore()
-  const connection = useConnections()
+  const { googleFile, setGoogleFile } = useNodeStore()
+  const connection = useNode()
 
   const title = state.editor.selectedNode.data.title
   const { toast } = useToast()

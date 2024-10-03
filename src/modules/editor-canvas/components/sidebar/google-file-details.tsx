@@ -1,16 +1,16 @@
 import { Card, CardContent, CardDescription } from '@/components/ui'
 import { onAddTemplate } from '@/lib/editor'
-import { useConnections } from '@/providers/connections-provider'
+import { useNode } from '@/providers/node-provider'
 import React, { useEffect, useState } from 'react'
 
 type Props = {
-  connection: ConnectionProviderProps
+  connection: NodeProviderProps
   title: EditorCanvasTypes
   googleFile: any
 }
 
 const GoogleFileDetails = ({ connection, title, googleFile }: Props) => {
-  const {} = useConnections()
+  const {} = useNode()
   if (Object.keys(googleFile).length === 0 || googleFile.kind === '') return
 
   const [details, setDetails] = useState(['kind', 'name', 'mimeType'])
