@@ -1,5 +1,3 @@
-export type ConnectionTypes = 'GoogleDrive' | 'Notion' | 'Slack' | 'Discord'
-
 export interface ConnectionsConfig {
   img: string
   title: ConnectionTypes
@@ -41,3 +39,30 @@ export const connectionsConfig: ConnectionsConfig[] = [
     slackSpecial: true
   }
 ]
+
+
+export const CONNECTION_SEARCH_PARAMS: ConnectionServices = {
+  /** Discord */
+  webhookId: 'webhook_id',
+  channelId: 'channel_id',
+  webhookName: 'webhook_name',
+  webhookUrl: 'webhook_url',
+  guildName: 'guild_name',
+  guildId: 'guild_id',
+
+  /** Notion */
+  accessToken: 'access_token',
+  workspaceId: 'workspace_id',
+  workspaceIcon: 'workspace_icon',
+  workspaceName: 'workspace_name',
+  databaseId: 'database_id',
+
+  /** Slack */
+  appId: 'app_id',
+  authedUserId: 'authed_user_id',
+  authedUserToken: 'authed_user_token',
+  slackAccessToken: 'slack_access_token',
+  botUserId: 'bot_user_id',
+  teamId: 'team_id',
+  teamName: 'team_name',
+}

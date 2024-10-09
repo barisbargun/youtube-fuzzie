@@ -2,23 +2,13 @@ import { db } from "@/lib/db"
 import { currentUser } from "@clerk/nextjs/server"
 import axios from "axios"
 
-export type DiscordConnectionProps = {
-  channel_id: string
-  webhook_id: string
-  webhook_name: string
-  webhook_url: string
-  guild_name: string
-  guild_id: string
-}
-
-type OnDiscordConnect = Partial<DiscordConnectionProps> & {
+type Props = ConnectionDiscord & {
   userId: string
 }
 
-export const onDiscordConnect = async ({ channel_id, webhook_id, webhook_name, webhook_url, guild_name, guild_id, userId }: OnDiscordConnect) => {
-  if (webhook_id) return;
-
-  const webhook = await db.discordWebhook.findFirst({
+export const onDiscordConnect = async ({ channelId, webhookId, webhookName, webhookUrl, guildName, guildId, userId }: Props) => {
+  if (!webhookId) return;
+  const discordDb = await db.discordWebhook.findFirst({
     where: {
       userId: userId
     },
@@ -31,9 +21,9 @@ export const onDiscordConnect = async ({ channel_id, webhook_id, webhook_name, w
     }
   })
 
-  const webhookChannel = await db.discordWebhook.findUnique({
+  const findChannel = await db.discordWebhook.findUnique({
     where: {
-      channelId: channel_id
+      channelId: channelId
     },
     include: {
       connections: {
@@ -44,19 +34,19 @@ export const onDiscordConnect = async ({ channel_id, webhook_id, webhook_name, w
     }
   })
 
-  if (!webhook || !webhookChannel) {
+  if (!discordDb || !findChannel) {
     await db.discordWebhook.create({
       data: {
         userId,
-        channelId: channel_id || "",
-        webhookId: webhook_id || "",
-        name: webhook_name || "",
-        url: webhook_url || "",
-        guildName: guild_name || "",
-        guildId: guild_id || "",
+        channelId,
+        webhookId,
+        name: webhookName,
+        url: webhookUrl,
+        guildName,
+        guildId,
         connections: {
           create: {
-            userId: userId,
+            userId,
             type: 'Discord'
           }
         }
@@ -65,7 +55,7 @@ export const onDiscordConnect = async ({ channel_id, webhook_id, webhook_name, w
   }
 }
 
-export const getDiscortConnectionUrl = async () => {
+export const getDiscordConnectionUrl = async () => {
   const user = await currentUser();
   if (user) {
     return await db.discordWebhook.findFirst({

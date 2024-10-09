@@ -1,5 +1,7 @@
+'use client'
 import {
   Button,
+  buttonVariants,
   Card,
   CardContent,
   CardDescription,
@@ -7,14 +9,32 @@ import {
   CardTitle
 } from '@/components/ui'
 import { ConnectionsConfig } from '@/config/connections'
+import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import React from 'react'
+import Link from 'next/link'
+import React, { useMemo } from 'react'
 
 type Props = Pick<ConnectionsConfig, 'img' | 'title' | 'desc'> & {
-  connected?: {} & any
+  connected?: boolean
 }
 
-const ConnectionCard = ({ img, title, desc }: Props) => {
+const ConnectionCard = ({ img, title, desc, connected }: Props) => {
+  const href = useMemo(() => {
+    switch (title) {
+      case 'Discord':
+        return process.env.NEXT_PUBLIC_DISCORD_REDIRECT!
+
+      case 'Notion':
+        return process.env.NEXT_PUBLIC_NOTION_AUTH_URL!
+
+      case 'Slack':
+        return process.env.NEXT_PUBLIC_SLACK_REDIRECT!
+
+      default:
+        return ''
+    }
+  }, [title, connected])
+
   return (
     <Card className="h-fit">
       <CardHeader>
@@ -25,7 +45,15 @@ const ConnectionCard = ({ img, title, desc }: Props) => {
           <CardTitle>{title}</CardTitle>
           <CardDescription className="mt-1">{desc}</CardDescription>
         </div>
-        <Button className="w-fit font-medium max-sm:mt-1">Connect</Button>
+        <Link
+          href={connected ? '' : href}
+          className={cn(
+            'w-fit font-medium max-sm:mt-1',
+            buttonVariants({ variant: connected ? 'outline' : 'default' })
+          )}
+        >
+          {connected ? 'Connected' : 'Connect'}
+        </Link>
       </CardContent>
     </Card>
   )
