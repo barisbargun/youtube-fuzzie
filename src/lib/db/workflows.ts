@@ -1,6 +1,6 @@
-'use server'
+"use server"
 
-import { db } from '@/lib/db'
+import { db } from "./db"
 
 export const onCreateNodesEdges = async (
   flowId: string,
@@ -8,7 +8,7 @@ export const onCreateNodesEdges = async (
   edges: string,
   flowPath: string
 ) => {
-  const flow = await db.workflows.update({
+  return await db.workflows.update({
     where: {
       id: flowId
     },
@@ -18,13 +18,10 @@ export const onCreateNodesEdges = async (
       flowPath: flowPath
     }
   })
-
-  if (flow) return { message: 'flow saved' }
 }
 
 export const onFlowPublish = async (workflowId: string, state: boolean) => {
-  console.log(state)
-  const published = await db.workflows.update({
+  return await db.workflows.update({
     where: {
       id: workflowId
     },
@@ -32,7 +29,4 @@ export const onFlowPublish = async (workflowId: string, state: boolean) => {
       publish: state
     }
   })
-
-  if (published.publish) return 'Workflow published'
-  return 'Workflow unpublished'
 }

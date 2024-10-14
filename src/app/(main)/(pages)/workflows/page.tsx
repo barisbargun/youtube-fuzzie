@@ -1,16 +1,16 @@
 import React from 'react'
-import Header from '../_components/header'
 import WorkflowButton from './_components/button'
 import WorkflowCard from './_components/card'
+import { PageHeader, PageHeaderHeading, PageHeaderDescription } from '@/components/shared/page-header'
 
 type Props = {}
 
 const Workflows = (props: Props) => {
   return (
-    <div>
-      <Header title="Workflows">
-        <WorkflowButton className="" />
-      </Header>
+    <>
+      <PageHeader separate>
+        <PageHeaderHeading>Workflows</PageHeaderHeading>
+      </PageHeader>
       <section>
         <WorkflowCard
           id="asdasd"
@@ -19,7 +19,7 @@ const Workflows = (props: Props) => {
           publish={false}
         />
       </section>
-    </div>
+    </>
   )
 }
 

@@ -30,13 +30,13 @@ const AccordionAccount = ({
 
   return (
     <div>
-      <ConnectionCard title={title} img={img} desc={desc} connected={{ [title]: isConnected }} />
+      <ConnectionCard title={title} img={img} desc={desc} connected={!!isConnected} />
       {slackSpecial && isConnected && (
         <div>
           {slackChannels.length ? (
             <>
               <div>Seleck the slack channels to send notification and messages:</div>
-              <MultiSelect
+              <MultiSelect // https://github.com/sersavan/shadcn-multi-select-component
                 options={slackChannels}
                 defaultValue={selectedSlackChannels}
                 onValueChange={setSelectedSlackChannels}

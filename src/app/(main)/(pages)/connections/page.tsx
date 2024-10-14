@@ -1,13 +1,14 @@
 import React from 'react'
-import Header from '../_components/header'
 import { CONNECTION_SEARCH_PARAMS, connectionsConfig } from '@/config/connections'
 import ConnectionCard from '../_components/connection-card'
 import { currentUser } from '@clerk/nextjs/server'
-import { onDiscordConnect } from './_actions/discord'
-import { onNotionConnect } from './_actions/notion'
-import { onSlackConnect } from './_actions/slack'
 import { ChangeObjectSides } from '@/utils/object'
-import { getUser } from './_actions/user'
+import { onDiscordConnect, onNotionConnect, onSlackConnect, getUser } from '@/lib/db'
+import {
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading
+} from '@/components/shared/page-header'
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -61,18 +62,21 @@ const ConnectionsPage = async ({ searchParams }: Props) => {
   }
   const connections = await handleConnection()
   return (
-    <div>
-      <Header title="Connections" />
-      <p className="text-neutral-400/90">
-        Connect all your apps directly from here. You may need to connect these apps regularly to
-        refresh verification
-      </p>
+    <>
+      <PageHeader separate>
+        <PageHeaderHeading>Connections</PageHeaderHeading>
+        <PageHeaderDescription>
+          Connect all your apps directly from here. You may need to connect these apps regularly to
+          refresh verification
+        </PageHeaderDescription>
+      </PageHeader>
+      <p className="text-neutral-400/90"></p>
       <ul className="mt-5 grid gap-5 lg:grid-cols-2 2xl:grid-cols-3">
         {connectionsConfig.map((v) => (
           <ConnectionCard key={v.title} {...v} connected={connections[v.title]} />
         ))}
       </ul>
-    </div>
+    </>
   )
 }
 

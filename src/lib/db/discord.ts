@@ -1,4 +1,5 @@
-import { db } from "@/lib/db"
+"use server"
+import { db } from "./db"
 import { currentUser } from "@clerk/nextjs/server"
 import axios from "axios"
 
@@ -64,7 +65,7 @@ export const getDiscordConnectionUrl = async () => {
       },
       select: {
         url: true,
-        channelId: true,
+        name: true,
         guildName: true,
       }
     })

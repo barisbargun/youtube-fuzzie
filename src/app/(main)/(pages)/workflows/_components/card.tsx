@@ -1,4 +1,7 @@
+"use client"
 import { Card, CardDescription, CardHeader, CardTitle, Switch } from '@/components/ui'
+import { useToast } from '@/hooks/use-toast'
+import { onFlowPublish } from '@/lib/db'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -11,6 +14,17 @@ type Props = {
 }
 
 const WorkflowCard = ({ id, desc, title, publish }: Props) => {
+  const { toast } = useToast()
+
+  const publishFlow = async (check: boolean) => {
+    const res = await onFlowPublish(id, check)
+    toast({
+      title: 'Flow Automation',
+      description: res?.publish ? 'Workflow published successfully' : 'Failed to publish workflow',
+      variant: res?.publish ? 'default' : 'destructive'
+    })
+  }
+
   return (
     <Card className="flex h-fit w-full items-center justify-between">
       <CardHeader className="flex flex-col">
@@ -25,10 +39,14 @@ const WorkflowCard = ({ id, desc, title, publish }: Props) => {
         </Link>
       </CardHeader>
       <div className="mr-6 flex flex-col items-center">
-        <label htmlFor="workflow-mode" className="text-sm text-muted-foreground">
-          {publish ? 'On' : 'Off'}
+        <label htmlFor="airplane-mode" className="text-sm text-muted-foreground">
+          {publish ? 'On' : 'Off'} {/* WIP: Not changing. */}
         </label>
-        <Switch id="workflow-mode" defaultChecked={publish} />
+        <Switch
+          id="airplane-mode"
+          defaultChecked={publish}
+          // onCheckedChange={(v) => publishFlow(v)}
+        />
       </div>
     </Card>
   )

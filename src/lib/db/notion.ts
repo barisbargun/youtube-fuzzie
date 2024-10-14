@@ -1,6 +1,7 @@
-import { db } from "@/lib/db"
+"use server"
+import { db } from "./db"
 import { currentUser } from "@clerk/nextjs/server"
-
+import { Client } from "@notionhq/client";
 type Props = ConnectionNotion & {
   userId: string
 }
@@ -52,6 +53,25 @@ export const getNotionConnection = async () => {
   }
 }
 
-// export const getNotionDatabase = async (accessToken: string, databaseId: string) => {
-//   const notion = new Client({ auth: accessToken });
-// }
+export const getNotionDatabase = async (accessToken: string, databaseId: string) => {
+  const notion = new Client({ auth: accessToken });
+  return await notion.databases.retrieve({ database_id: databaseId });
+}
+
+export const createNotionPage = async (accessToken: string, databaseId: string, content: string) => {
+  const notion = new Client({ auth: accessToken });
+  return await notion.pages.create({
+    parent: { type: "database_id", database_id: databaseId },
+    properties: {
+      name: [
+        {
+          text: { content }
+        }
+      ]
+    }
+  });
+}
+
+export const notionSetContent = (connection: NodeProviderProps, content: any) => {
+  connection.setNotionNode((prev) => ({ ...prev, content }));
+}

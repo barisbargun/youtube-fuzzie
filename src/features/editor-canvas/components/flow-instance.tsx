@@ -1,9 +1,9 @@
 import { useToast } from '@/hooks/use-toast'
 import { usePathname } from 'next/navigation'
-import React, { useCallback, useState } from 'react'
-import { onCreateNodesEdges, onFlowPublish } from '../actions/editor-db'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useNode } from '@/providers/node-provider'
 import { Button } from '@/components/ui'
+import { onCreateNodesEdges, onFlowPublish } from '@/lib/db'
 
 type Props = {
   children: React.ReactNode
@@ -18,32 +18,43 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
   const { toast } = useToast()
 
   const onFlowAutomation = useCallback(async () => {
-    const flow = await onCreateNodesEdges(
+    const res = await onCreateNodesEdges(
       pathname.split('/').pop()!,
       JSON.stringify(nodes),
       JSON.stringify(edges),
       JSON.stringify(isFlow)
     )
 
-    if (flow)
-      toast({
-        title: 'Flow Automation',
-        description: flow.message
-      })
+    toast({
+      title: 'Flow Automation',
+      description: res ? 'Flow automation saved successfully' : 'Failed to save flow automation',
+      variant: res ? 'default' : 'destructive'
+    });
   }, [nodeConnection])
 
   const onPublishWorkflow = useCallback(async () => {
-    const response = await onFlowPublish(pathname.split('/').pop()!, true)
-    if (response) toast({
+    const res = await onFlowPublish(pathname.split('/').pop()!, true)
+    toast({
       title: 'Flow Automation',
-      description: response
-    })
+      description: res?.publish ? 'Workflow published successfully' : 'Failed to publish workflow',
+      variant: res?.publish ? 'default' : 'destructive'
+    });
   }, [])
 
+  useEffect(() => {
+    const onAutomateFlow = async () => {
+      const flows: any = edges.map((edge) => {
+        if (edge.target) return nodes.find((node) => node.id === edge.target).type
+      })
+      setIsFlow(flows)
+    }
+    onAutomateFlow()
+  }, [edges])
+
   return (
-    <div className="flex flex-col gap-2 h-full">
+    <div className="flex h-full flex-col gap-2">
       <div className="flex gap-3 p-4">
-        <Button onClick={onFlowAutomation} disabled={isFlow.length < 1}>
+        <Button disabled={isFlow.length < 1} onClick={onFlowAutomation}>
           Save
         </Button>
         <Button disabled={isFlow.length < 1} onClick={onPublishWorkflow}>

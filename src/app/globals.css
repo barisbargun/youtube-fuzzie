@@ -84,3 +84,17 @@
     @apply resize-none;
   }
 }
+
+@layer utilities {
+  .page-padding-x {
+    @apply px-5 lg:px-8;
+  }
+
+  .page-padding-y {
+    @apply py-5 lg:py-8;
+  }
+
+  .page-padding {
+    @apply page-padding-x page-padding-y;
+  }
+}
