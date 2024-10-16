@@ -73,19 +73,21 @@ const AccordionAction = ({ state }: Props) => {
           <CardHeader>
             <CardTitle>{title === 'Notion' ? 'Values to be stored' : 'Message'}</CardTitle>
           </CardHeader>
-          <CardContent className='flex flex-col items-center gap-4'>
+          <CardContent className="flex flex-col items-center gap-4">
             <Input
               value={provider?.content || ''}
-              onChange={(e) => onContentChange(connection, e.target.value, title)}
+              onChange={(e) =>
+                onContentChange(connection, title as ConnectionPrimaryTypes, e.target.value)
+              }
             />
             {JSON.stringify(googleFile) !== '{}' && title !== 'GoogleDrive' && (
               <>
                 <p>Drive File</p>
-                <GoogleFileDetails title={title} connection={connection} googleFile={googleFile} />
+                <GoogleFileDetails title={title} googleFile={googleFile} />
               </>
             )}
             {title === 'GoogleDrive' && <GoogleDriveFiles />}
-            <ActionButton service={title} />
+            <ActionButton service={title as ConnectionPrimaryTypes} />
           </CardContent>
         </Card>
       </Card>

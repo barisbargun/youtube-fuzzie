@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Loader2, Trash2Icon } from 'lucide-react'
 import { User } from '@prisma/client'
-import FileUploaderDialog from '@/modules/fileUploaderDialog'
+import FileUploaderDialog from '@/features/fileUploaderDialog'
 import Image from 'next/image'
 
 type Props = {

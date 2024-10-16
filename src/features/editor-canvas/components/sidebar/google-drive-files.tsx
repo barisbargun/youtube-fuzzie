@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useToast } from '@/hooks/use-toast'
 import { Button } from '@/components/ui'
 import { Loader } from '@/components/icons'
-import { getGoogleListener } from '../../actions/workflow-connections'
+import { getGoogleListener } from '@/lib/db'
 
 const GoogleDriveFiles = () => {
   const [loading, setLoading] = useState(false)

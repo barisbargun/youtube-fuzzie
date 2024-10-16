@@ -175,7 +175,7 @@ const EditorCanvas = () => {
   }, [handleKeyDown])
 
   return (
-    <ResizablePanelGroup direction="horizontal">
+    <ResizablePanelGroup direction="horizontal" className='absolute top-0 left-0'>
       <ResizablePanel defaultSize={70}>
         <div className="flex h-full items-center justify-center">
           <div className="relative h-full w-full pb-16">
@@ -213,7 +213,7 @@ const EditorCanvas = () => {
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={30} className="relative max-h-screen sm:block">
+      <ResizablePanel defaultSize={30} className="relative max-h-screen sm:block bg-background">
         {loading ? (
           <div className="flex-center left-0 top-0 h-full w-full">
             <Loader />

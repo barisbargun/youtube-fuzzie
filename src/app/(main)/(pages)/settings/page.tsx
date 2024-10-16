@@ -1,10 +1,14 @@
 import React from 'react'
 import ProfileForm from './_components/profile-form'
 import { currentUser } from '@clerk/nextjs/server'
-import { db } from '@/lib/db'
+import { db } from '@/lib/db/db'
 import { z } from 'zod'
 import { userUpdateSchema } from '@/lib/validations'
-import Header from '../_components/header'
+import {
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderHeading
+} from '@/components/shared/page-header'
 
 const Settings = async () => {
   const authUser = await currentUser()
@@ -25,8 +29,12 @@ const Settings = async () => {
   }
 
   return (
-    <div>
-      <Header title="Settings" />
+    <>
+      <PageHeader separate>
+        <PageHeaderHeading>Settings</PageHeaderHeading>
+        <PageHeaderDescription>Update your profile information.</PageHeaderDescription>
+      </PageHeader>
+
       <section>
         <div className="mb-8">
           <h2 className="text-xl font-semibold">User Profile</h2>
@@ -38,7 +46,7 @@ const Settings = async () => {
           <ProfileForm user={user} saveSettings={saveSettings} />
         </>
       )}
-    </div>
+    </>
   )
 }
 

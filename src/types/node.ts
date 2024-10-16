@@ -1,3 +1,5 @@
+type DispatchAction<T> = React.Dispatch<React.SetStateAction<T>>
+
 type NodeProviderProps = {
   discordNode: {
     webhookURL: string
@@ -5,21 +7,25 @@ type NodeProviderProps = {
     webhookName: string
     guildName: string
   }
-  setDiscordNode: React.Dispatch<React.SetStateAction<any>>
+  setDiscordNode: DispatchAction<NodeProviderProps['discordNode']>
   googleNode: {}[]
-  setGoogleNode: React.Dispatch<React.SetStateAction<any>>
+  setGoogleNode: DispatchAction<NodeProviderProps['googleNode']>
   notionNode: {
     accessToken: string
     databaseId: string
     workspaceName: string
-    content: ''
+    content: { // WIP: Check if this is the correct type (for _actions/notion.ts(74) and lib/editor.ts(58))
+      name: string,
+      kind: string,
+      type: string
+    }
   }
   workflowTemplate: {
     discord?: string
     notion?: string
     slack?: string
   }
-  setNotionNode: React.Dispatch<React.SetStateAction<any>>
+  setNotionNode: DispatchAction<NodeProviderProps['notionNode']>
   slackNode: {
     appId: string
     authedUserId: string
@@ -30,14 +36,12 @@ type NodeProviderProps = {
     teamName: string
     content: string
   }
-  setSlackNode: React.Dispatch<React.SetStateAction<any>>
-  setWorkFlowTemplate: React.Dispatch<
-    React.SetStateAction<{
-      discord?: string
-      notion?: string
-      slack?: string
-    }>
-  >
+  setSlackNode: DispatchAction<NodeProviderProps['slackNode']>
+  setWorkFlowTemplate: DispatchAction<{
+    discord?: string
+    notion?: string
+    slack?: string
+  }>
   isLoading: boolean
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+  setIsLoading: DispatchAction<boolean>
 }

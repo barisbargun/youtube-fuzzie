@@ -1,13 +1,24 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui'
-import { Separator, Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Separator,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
+} from '@/components/ui'
+import React, { useEffect, useMemo } from 'react'
 import { editorActionItems } from '@/config/editor'
+import { connectionsConfig } from '@/config/connections'
 import { useNode } from '@/providers/node-provider'
 import { useEditor } from '@/providers/editor-provider'
-import React, { useEffect, useMemo } from 'react'
-import { connectionsConfig } from '@/config/connections'
 import ActionCard from './action-card'
 import AccordionAccount from './accordion-account'
 import AccordionAction from './accordion-action'
+import { useNodeStore } from '@/store/node-store'
+import { fetchBotSlackChannels, onConnections } from '@/lib/editor'
 
 type Props = {
   nodes: EditorNode[]
@@ -15,12 +26,18 @@ type Props = {
 
 const Sidebar = ({ nodes }: Props) => {
   const { state } = useEditor()
+  const connection = useNode()
+  const { googleFile, setSlackChannels } = useNodeStore()
   const hasTrigger = useMemo(() => nodes.find((n) => n.type == 'Trigger'), [nodes])
 
-  // useEffect(() => {
-  //   if(connection.slackNode.slackAccessToken) {
-  //     connection.fetchSlackChannels()
-  // }, [connection.slackNode.slackAccessToken])
+  useEffect(() => {
+    if (state) onConnections(connection, state, googleFile)
+  }, [state])
+
+  useEffect(() => {
+    const accessToken = connection.slackNode.slackAccessToken
+    if (accessToken) fetchBotSlackChannels(accessToken, setSlackChannels)
+  }, [connection.slackNode.slackAccessToken])
 
   const selectedConnection = useMemo(() => {
     return connectionsConfig.find((c) => c.title == state.editor.selectedNode.data.title)
