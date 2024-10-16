@@ -6,7 +6,7 @@ type Props = ConnectionNotion & {
   userId: string
 }
 
-export const onNotionConnect = async ({ accessToken, workspaceId, workspaceIcon, workspaceName, databaseId, userId }: Props) => {
+export const notionConnect = async ({ accessToken, workspaceId, workspaceIcon, workspaceName, databaseId, userId }: Props) => {
   if (!accessToken) return;
 
   const notionDb = await db.notion.findFirst({
@@ -42,7 +42,7 @@ export const onNotionConnect = async ({ accessToken, workspaceId, workspaceIcon,
   }
 }
 
-export const getNotionConnection = async () => {
+export const notionGetConnection = async () => {
   const user = await currentUser();
   if (user) {
     return await db.notion.findFirst({
@@ -53,12 +53,12 @@ export const getNotionConnection = async () => {
   }
 }
 
-export const getNotionDatabase = async (accessToken: string, databaseId: string) => {
+export const notionGetDb = async (accessToken: string, databaseId: string) => {
   const notion = new Client({ auth: accessToken });
   return await notion.databases.retrieve({ database_id: databaseId });
 }
 
-export const createNotionPage = async (accessToken: string, databaseId: string, content: string) => {
+export const notionCreatePage = async (accessToken: string, databaseId: string, content: string) => {
   const notion = new Client({ auth: accessToken });
   return await notion.pages.create({
     parent: { type: "database_id", database_id: databaseId },

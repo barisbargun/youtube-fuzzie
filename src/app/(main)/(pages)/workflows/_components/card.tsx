@@ -1,7 +1,7 @@
 "use client"
 import { Card, CardDescription, CardHeader, CardTitle, Switch } from '@/components/ui'
 import { useToast } from '@/hooks/use-toast'
-import { onFlowPublish } from '@/lib/db'
+import { workflowPublish } from '@/lib/db'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -17,7 +17,7 @@ const WorkflowCard = ({ id, desc, title, publish }: Props) => {
   const { toast } = useToast()
 
   const publishFlow = async (check: boolean) => {
-    const res = await onFlowPublish(id, check)
+    const res = await workflowPublish(id, check)
     toast({
       title: 'Flow Automation',
       description: res?.publish ? 'Workflow published successfully' : 'Failed to publish workflow',

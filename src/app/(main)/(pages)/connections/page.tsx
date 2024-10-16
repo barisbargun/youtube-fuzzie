@@ -3,7 +3,7 @@ import { CONNECTION_SEARCH_PARAMS, connectionsConfig } from '@/config/connection
 import ConnectionCard from '../_components/connection-card'
 import { currentUser } from '@clerk/nextjs/server'
 import { ChangeObjectSides } from '@/utils/object'
-import { onDiscordConnect, onNotionConnect, onSlackConnect, getUser } from '@/lib/db'
+import { discordConnect, notionConnect, slackConnect, getUser } from '@/lib/db'
 import {
   PageHeader,
   PageHeaderDescription,
@@ -47,9 +47,9 @@ const ConnectionsPage = async ({ searchParams }: Props) => {
       teamName: '',
       ...(searchParams as any)
     }
-    await onDiscordConnect({ ...params })
-    await onNotionConnect({ ...params })
-    await onSlackConnect({ ...params })
+    await discordConnect({ ...params })
+    await notionConnect({ ...params })
+    await slackConnect({ ...params })
 
     const connections: { [key in ConnectionTypes]?: boolean } = {}
 

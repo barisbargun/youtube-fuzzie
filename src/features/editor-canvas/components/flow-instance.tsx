@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useNode } from '@/providers/node-provider'
 import { Button } from '@/components/ui'
-import { onCreateNodesEdges, onFlowPublish } from '@/lib/db'
+import { workflowCreateNodesEdges, workflowPublish } from '@/lib/db'
 
 type Props = {
   children: React.ReactNode
@@ -18,7 +18,7 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
   const { toast } = useToast()
 
   const onFlowAutomation = useCallback(async () => {
-    const res = await onCreateNodesEdges(
+    const res = await workflowCreateNodesEdges(
       pathname.split('/').pop()!,
       JSON.stringify(nodes),
       JSON.stringify(edges),
@@ -33,7 +33,7 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
   }, [nodeConnection])
 
   const onPublishWorkflow = useCallback(async () => {
-    const res = await onFlowPublish(pathname.split('/').pop()!, true)
+    const res = await workflowPublish(pathname.split('/').pop()!, true)
     toast({
       title: 'Flow Automation',
       description: res?.publish ? 'Workflow published successfully' : 'Failed to publish workflow',
