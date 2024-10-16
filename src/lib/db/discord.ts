@@ -7,7 +7,7 @@ type Props = ConnectionDiscord & {
   userId: string
 }
 
-export const onDiscordConnect = async ({ channelId, webhookId, webhookName, webhookUrl, guildName, guildId, userId }: Props) => {
+export const discordConnect = async ({ channelId, webhookId, webhookName, webhookUrl, guildName, guildId, userId }: Props) => {
   if (!webhookId) return;
   const discordDb = await db.discordWebhook.findFirst({
     where: {
@@ -56,7 +56,7 @@ export const onDiscordConnect = async ({ channelId, webhookId, webhookName, webh
   }
 }
 
-export const getDiscordConnectionUrl = async () => {
+export const discordGetConnection = async () => {
   const user = await currentUser();
   if (user) {
     return await db.discordWebhook.findFirst({
@@ -71,11 +71,7 @@ export const getDiscordConnectionUrl = async () => {
     })
   }
 }
-
+// WIP: Move it to another related file 
 export const postContentToWebHook = async (url: string, content: string) => {
-  if (content.length) {
-    const res = await axios.post(url, { content });
-    return { message: res.data ? 'Success' : 'Failed' };
-  }
-  return { message: 'Content empty' };
+  if (content.length) return await axios.post(url, { content });
 }

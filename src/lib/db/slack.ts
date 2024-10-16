@@ -7,7 +7,7 @@ type Props = ConnectionSlack & {
   userId: string
 }
 
-export const onSlackConnect = async ({ appId, authedUserId, authedUserToken, slackAccessToken, botUserId, teamId, teamName, userId }: Props) => {
+export const slackConnect = async ({ appId, authedUserId, authedUserToken, slackAccessToken, botUserId, teamId, teamName, userId }: Props) => {
   if (!slackAccessToken) return;
 
   const slackDb = await db.slack.findFirst({
@@ -41,7 +41,7 @@ export const onSlackConnect = async ({ appId, authedUserId, authedUserToken, sla
   })
 }
 
-export const getSlackConnection = async () => {
+export const slackGetConnection = async () => {
   const user = await currentUser();
   if (user) {
     return await db.slack.findFirst({
@@ -52,7 +52,7 @@ export const getSlackConnection = async () => {
   }
 }
 
-export const listBotSlackChannels = async (
+export const slackListBotChannels = async (
   accessToken: string
 ): Promise<Option[]> => {
   const params = new URLSearchParams({
@@ -76,14 +76,14 @@ export const listBotSlackChannels = async (
     .map(ch => { return { label: ch.name, value: ch.id } });
 }
 
-export const msgToSlackChannel = async (
+export const slackMsgChannel = async (
   accessToken: string,
   channelId: string[],
   content: string
 ) => {
   const url = 'https://slack.com/api/chat.postMessage'
 
-  await Promise.all(channelId.map(async id => {
+  return await Promise.all(channelId.map(async id => {
     await axios.post(url, {
       channel: id,
       text: content
