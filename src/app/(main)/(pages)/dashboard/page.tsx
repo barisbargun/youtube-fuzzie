@@ -1,9 +1,10 @@
+import React from 'react'
+
 import {
   PageHeader,
-  PageHeaderHeading,
-  PageHeaderDescription
+  PageHeaderDescription,
+  PageHeaderHeading
 } from '@/components/shared/page-header'
-import React from 'react'
 
 const DashboardPage = () => {
   return (

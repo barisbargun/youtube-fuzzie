@@ -12,6 +12,8 @@ const TooltipProvider = React.forwardRef<
   <TooltipPrimitive.Provider delayDuration={delayDuration} {...props} />
 ))
 
+TooltipProvider.displayName = TooltipPrimitive.Provider.displayName
+
 const Tooltip = TooltipPrimitive.Root
 
 const TooltipTrigger = TooltipPrimitive.Trigger

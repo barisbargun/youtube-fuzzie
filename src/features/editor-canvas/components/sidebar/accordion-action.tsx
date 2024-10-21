@@ -1,13 +1,15 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Input } from '@/components/ui'
-import { useToast } from '@/hooks/use-toast'
-import { onContentChange } from '@/lib/editor'
-import { useNodeStore } from '@/store/node-store'
 import axios from 'axios'
 import { useEffect, useMemo, useState } from 'react'
-import GoogleFileDetails from './google-file-details'
+import { toast } from 'sonner'
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Input } from '@/components/ui'
+import { onContentChange } from '@/lib/editor'
 import { useNode } from '@/providers/node-provider'
-import GoogleDriveFiles from './google-drive-files'
+import { useNodeStore } from '@/store/node-store'
+
 import ActionButton from './action-button'
+import GoogleDriveFiles from './google-drive-files'
+import GoogleFileDetails from './google-file-details'
 
 type ConnProps = NodeProviderProps
 type Props = {
@@ -19,7 +21,7 @@ const AccordionAction = ({ state }: Props) => {
   const connection = useNode()
 
   const title = state.editor.selectedNode.data.title
-  const { toast } = useToast()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [provider, setProvider] = useState<any>()
 
   useEffect(() => {
@@ -27,14 +29,15 @@ const AccordionAction = ({ state }: Props) => {
       try {
         const response = await axios.get('/api/drive')
         if (response) {
-          toast({ title: 'Fetched File' })
+          toast.success('Fetched File')
           setGoogleFile(response.data.message.files[0])
         }
-      } catch (error) {}
-      toast({ title: 'Failed to fetch file' })
+      } catch (error) {
+        toast.error('Failed to fetch file')
+      }
     }
     request()
-  }, [])
+  }, [setGoogleFile])
 
   const isConnected = useMemo(() => {
     switch (title) {
@@ -57,7 +60,14 @@ const AccordionAction = ({ state }: Props) => {
       default:
         break
     }
-  }, [title, connection.isLoading])
+  }, [
+    title,
+    connection.isLoading,
+    connection.googleNode,
+    connection.slackNode,
+    connection.discordNode,
+    connection.notionNode
+  ])
 
   if (!title || !isConnected) return <p>Not connected.</p>
   return (

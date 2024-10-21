@@ -1,5 +1,5 @@
 // WIP: Move ConnectionCard to the components folder
-import ConnectionCard from '@/app/(main)/(pages)/_components/connection-card'
+import ConnectionCard from '@/components/shared/connection-card'
 import { MultiSelect } from '@/components/ui/multiple-select'
 import { ConnectionsConfig } from '@/config/connections'
 import { useNode } from '@/providers/node-provider'

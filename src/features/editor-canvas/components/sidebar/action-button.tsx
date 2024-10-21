@@ -1,16 +1,15 @@
+import { usePathname } from 'next/navigation'
+import React from 'react'
+import { toast } from 'sonner'
+
 import { Button } from '@/components/ui'
-import { useToast } from '@/hooks/use-toast'
-import {
-  notionCreatePage,
-  slackMsgChannel,
-  workflowCreateTemplate,
-  postContentToWebHook
-} from '@/lib/db'
+import { postContentToWebHook } from '@/lib/db/discord'
+import { notionCreatePage } from '@/lib/db/notion'
+import { slackMsgChannel } from '@/lib/db/slack'
+import { workflowCreateTemplate } from '@/lib/db/workflows'
 import { onContentChange } from '@/lib/editor'
 import { useNode } from '@/providers/node-provider'
 import { useNodeStore } from '@/store/node-store'
-import { usePathname } from 'next/navigation'
-import React from 'react'
 
 type Props = {
   service: ConnectionPrimaryTypes
@@ -20,7 +19,6 @@ const ActionButton = ({ service }: Props) => {
   const connection = useNode()
   const { selectedSlackChannels, setSelectedSlackChannels } = useNodeStore()
   const pathname = usePathname()
-  const { toast } = useToast()
 
   const handleAction = async () => {
     switch (service) {
@@ -33,7 +31,7 @@ const ActionButton = ({ service }: Props) => {
 
       case 'Notion': {
         const node = connection.notionNode
-        const res = await notionCreatePage(node.databaseId, node.accessToken, node.content.name);
+        const res = await notionCreatePage(node.databaseId, node.accessToken, node.content.name)
         if (!res) return
         break
       }
@@ -60,8 +58,8 @@ const ActionButton = ({ service }: Props) => {
     const splitPath = pathname.split('/').pop()
     if (!splitPath) return
 
-    // @ts-ignore
-    let params: Parameters<typeof workflowCreateTemplate> = [splitPath, service]
+    // @ts-expect-error param will be added later.
+    const params: Parameters<typeof workflowCreateTemplate> = [splitPath, service]
 
     switch (service) {
       case 'Discord':
@@ -71,7 +69,7 @@ const ActionButton = ({ service }: Props) => {
       case 'Slack':
         params.push(
           connection.slackNode.content,
-          selectedSlackChannels as any,
+          selectedSlackChannels,
           connection.slackNode.slackAccessToken
         )
         break
@@ -88,8 +86,7 @@ const ActionButton = ({ service }: Props) => {
         break
     }
     const res = await workflowCreateTemplate(...params)
-    if (res)
-      toast({ title: 'Template saved', description: 'Your template has been saved successfully' })
+    if (res) toast('Template saved', { description: 'Your template has been saved successfully' })
   }
 
   return (

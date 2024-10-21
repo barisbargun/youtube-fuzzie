@@ -10,7 +10,7 @@ import {
   Input,
   Textarea
 } from '@/components/ui'
-import { workflowSchema } from '@/lib/validations/workflow-schema'
+import { workflowSchema } from '@/lib/validations/workflow'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import React, { useState } from 'react'

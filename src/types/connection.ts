@@ -1,5 +1,5 @@
 type ConnectionPrimaryTypes = 'Notion' | 'Slack' | 'Discord'
-type ConnectionTypes = ConnectionPrimaryTypes & 'GoogleDrive'
+type ConnectionTypes = ConnectionPrimaryTypes | 'GoogleDrive'
 
 type ConnectionDiscord = {
   channelId: string

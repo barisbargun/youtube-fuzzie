@@ -1,14 +1,18 @@
 import React from 'react'
 import { CONNECTION_SEARCH_PARAMS, connectionsConfig } from '@/config/connections'
-import ConnectionCard from '../_components/connection-card'
+import ConnectionCard from '../../../../components/shared/connection-card'
 import { currentUser } from '@clerk/nextjs/server'
 import { ChangeObjectSides } from '@/utils/object'
-import { discordConnect, notionConnect, slackConnect, getUser } from '@/lib/db'
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading
 } from '@/components/shared/page-header'
+
+import { discordConnect } from '@/lib/db/discord'
+import { notionConnect } from '@/lib/db/notion'
+import { slackConnect } from '@/lib/db/slack'
+import { getUser } from '@/lib/db/user'
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined }
@@ -50,12 +54,12 @@ const ConnectionsPage = async ({ searchParams }: Props) => {
     await discordConnect({ ...params })
     await notionConnect({ ...params })
     await slackConnect({ ...params })
-
-    const connections: { [key in ConnectionTypes]?: boolean } = {}
-
     const userDb = await getUser(user.id)
+
+    const connections: Partial<Record<ConnectionTypes, boolean>> = {}
+
     userDb?.connections.forEach((v) => {
-      connections[v.type as ConnectionTypes] = true
+      if (v.type) connections[v.type as ConnectionTypes] = true
     })
 
     return { ...connections, GoogleDrive: true }

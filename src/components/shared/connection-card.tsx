@@ -1,6 +1,7 @@
-'use client'
+import Image from 'next/image'
+import Link from 'next/link'
+
 import {
-  Button,
   buttonVariants,
   Card,
   CardContent,
@@ -10,16 +11,14 @@ import {
 } from '@/components/ui'
 import { ConnectionsConfig } from '@/config/connections'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import Link from 'next/link'
-import React, { useMemo } from 'react'
 
 type Props = Pick<ConnectionsConfig, 'img' | 'title' | 'desc'> & {
   connected?: boolean
 }
 
 const ConnectionCard = ({ img, title, desc, connected }: Props) => {
-  const href = useMemo(() => {
+  const href = () => {
+    if (connected) return ''
     switch (title) {
       case 'Discord':
         return process.env.NEXT_PUBLIC_DISCORD_REDIRECT!
@@ -33,7 +32,7 @@ const ConnectionCard = ({ img, title, desc, connected }: Props) => {
       default:
         return ''
     }
-  }, [title, connected])
+  }
 
   return (
     <Card className="h-fit">
@@ -46,7 +45,7 @@ const ConnectionCard = ({ img, title, desc, connected }: Props) => {
           <CardDescription className="mt-1">{desc}</CardDescription>
         </div>
         <Link
-          href={connected ? '' : href}
+          href={href()}
           className={cn(
             'w-fit font-medium max-sm:mt-1',
             buttonVariants({ variant: connected ? 'outline' : 'default' })

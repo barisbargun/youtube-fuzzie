@@ -1,14 +1,16 @@
-import React from 'react'
-import ProfileForm from './_components/profile-form'
 import { currentUser } from '@clerk/nextjs/server'
-import { db } from '@/lib/db/db'
+import React from 'react'
 import { z } from 'zod'
-import { userUpdateSchema } from '@/lib/validations'
+
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading
 } from '@/components/shared/page-header'
+import { db } from '@/lib/db/db'
+import { userUpdateSchema } from '@/lib/validations/user'
+
+import ProfileForm from './_components/profile-form'
 
 const Settings = async () => {
   const authUser = await currentUser()
@@ -18,7 +20,6 @@ const Settings = async () => {
 
   const saveSettings = async (values: z.infer<typeof userUpdateSchema>) => {
     'use server'
-    console.log(values)
     await db.user.update({
       where: { clerkId: authUser.id },
       data: {

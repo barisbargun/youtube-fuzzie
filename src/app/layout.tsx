@@ -1,10 +1,14 @@
-import type { Metadata } from 'next'
 import './globals.css'
-import siteConfig from '@/config/site'
-import fonts from './fonts'
+
 import { ClerkProvider } from '@clerk/nextjs'
-import { Toaster } from '@/components/ui'
+import type { Metadata } from 'next'
 import { ThemeProvider } from 'next-themes'
+
+import { Toaster } from '@/components/ui/sonner'
+import siteConfig from '@/config/site'
+import { cn } from '@/lib/utils'
+
+import { fontDmSans, fontPoppins } from './fonts'
 
 export const metadata: Metadata = {
   title: {
@@ -66,7 +70,7 @@ export default function RootLayout({
   return (
     <ClerkProvider afterSignOutUrl="/">
       <html lang="en" suppressHydrationWarning>
-        <body className={fonts.join(' ')}>
+        <body className={cn(fontDmSans, fontPoppins)}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"

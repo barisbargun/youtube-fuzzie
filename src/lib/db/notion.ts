@@ -1,7 +1,9 @@
 "use server"
-import { db } from "./db"
 import { currentUser } from "@clerk/nextjs/server"
 import { Client } from "@notionhq/client";
+
+import { db } from "./db"
+
 type Props = ConnectionNotion & {
   userId: string
 }

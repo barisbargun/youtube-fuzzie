@@ -10,7 +10,7 @@ const initialEditorState: Editor = {
       current: false,
       description: '',
       metadata: {},
-      title: undefined,
+      title: undefined
     },
     id: '',
     position: { x: 0, y: 0 },

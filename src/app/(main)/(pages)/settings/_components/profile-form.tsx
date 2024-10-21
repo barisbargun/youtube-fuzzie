@@ -9,15 +9,15 @@ import {
   FormMessage,
   Input
 } from '@/components/ui'
-import { userUpdateSchema } from '@/lib/validations'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Loader2, Trash2Icon } from 'lucide-react'
-import { User } from '@prisma/client'
-import FileUploaderDialog from '@/features/fileUploaderDialog'
 import Image from 'next/image'
+import { User } from '@prisma/client'
+import { Loader2, Trash2Icon } from 'lucide-react'
+import FileUploaderDialog from '@/features/file-uploader'
+import { userUpdateSchema } from '@/lib/validations/user'
 
 type Props = {
   user: User

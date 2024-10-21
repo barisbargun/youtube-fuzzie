@@ -1,13 +1,15 @@
 "use server"
-import { db } from "./db"
 import { currentUser } from "@clerk/nextjs/server"
 import axios from "axios"
+
+import { db } from "./db"
 
 type Props = ConnectionDiscord & {
   userId: string
 }
 
 export const discordConnect = async ({ channelId, webhookId, webhookName, webhookUrl, guildName, guildId, userId }: Props) => {
+  console.log("****");
   if (!webhookId) return;
   const discordDb = await db.discordWebhook.findFirst({
     where: {

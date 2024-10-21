@@ -1,4 +1,4 @@
-import { Infobar, Sidebar } from '@/components/pages/main'
+// import { Infobar, Sidebar } from '@/components/pages/main'
 import React from 'react'
 
 type Props = {
@@ -8,10 +8,10 @@ type Props = {
 const PagesLayout = ({ children }: Props) => {
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="w-full overflow-hidden bg-neutral-900/10 dark:bg-neutral-900/20">
-        <Infobar />
-        {children}
+        {/* <Infobar /> */}
+        {/* {children} */}
       </div>
     </div>
   )

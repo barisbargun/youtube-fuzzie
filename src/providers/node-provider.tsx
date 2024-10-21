@@ -14,7 +14,11 @@ const InitialValues: NodeProviderProps = {
     accessToken: '',
     databaseId: '',
     workspaceName: '',
-    content: ''
+    content: {
+      kind: '',
+      name: '',
+      type: ''
+    }
   },
   workflowTemplate: {
     discord: '',
@@ -42,7 +46,7 @@ const InitialValues: NodeProviderProps = {
 
 const Context = createContext(InitialValues)
 
-export const NodeProvider = ({ children }: {children:React.ReactNode}) => {
+export const NodeProvider = ({ children }: { children: React.ReactNode }) => {
   const [discordNode, setDiscordNode] = useState(InitialValues.discordNode)
   const [googleNode, setGoogleNode] = useState(InitialValues.googleNode)
   const [notionNode, setNotionNode] = useState(InitialValues.notionNode)

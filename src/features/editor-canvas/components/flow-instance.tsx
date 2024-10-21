@@ -1,9 +1,10 @@
-import { useToast } from '@/hooks/use-toast'
 import { usePathname } from 'next/navigation'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useNode } from '@/providers/node-provider'
+import { toast } from 'sonner'
+
 import { Button } from '@/components/ui'
-import { workflowCreateNodesEdges, workflowPublish } from '@/lib/db'
+import { workflowCreateNodesEdges, workflowPublish } from '@/lib/db/workflows'
+import { useNode } from '@/providers/node-provider'
 
 type Props = {
   children: React.ReactNode
@@ -15,7 +16,6 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
   const pathname = usePathname()
   const [isFlow, setIsFlow] = useState([])
   const nodeConnection = useNode()
-  const { toast } = useToast()
 
   const onFlowAutomation = useCallback(async () => {
     const res = await workflowCreateNodesEdges(
@@ -25,12 +25,10 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
       JSON.stringify(isFlow)
     )
 
-    toast({
-      title: 'Flow Automation',
-      description: res ? 'Flow automation saved successfully' : 'Failed to save flow automation',
-      variant: res ? 'default' : 'destructive'
-    });
-  }, [nodeConnection])
+    toast[res ? 'success' : 'error']('Flow Automation', {
+      description: res ? 'Flow automation saved successfully' : 'Failed to save flow automation'
+    })
+  }, [edges, isFlow, nodes, pathname])
 
   const onPublishWorkflow = useCallback(async () => {
     const res = await workflowPublish(pathname.split('/').pop()!, true)
@@ -38,7 +36,7 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
       title: 'Flow Automation',
       description: res?.publish ? 'Workflow published successfully' : 'Failed to publish workflow',
       variant: res?.publish ? 'default' : 'destructive'
-    });
+    })
   }, [])
 
   useEffect(() => {

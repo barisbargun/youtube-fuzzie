@@ -40,10 +40,7 @@ function PageHeaderDescription({
   ...props
 }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
-    <p
-      className={cn('max-w-2xl text-lg font-light text-muted-foreground', className)}
-      {...props}
-    />
+    <p className={cn('max-w-2xl text-lg font-light text-muted-foreground', className)} {...props} />
   )
 }
 
@@ -56,4 +53,4 @@ function PageHeaderActions({ className, ...props }: React.HTMLAttributes<HTMLDiv
   )
 }
 
-export { PageHeaderActions, PageHeader, PageHeaderDescription, PageHeaderHeading }
+export { PageHeader, PageHeaderActions, PageHeaderDescription, PageHeaderHeading }
