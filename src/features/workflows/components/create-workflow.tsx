@@ -1,4 +1,10 @@
 'use client'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
 import {
   Button,
   Form,
@@ -11,15 +17,8 @@ import {
   Textarea
 } from '@/components/ui'
 import { workflowSchema } from '@/lib/validations/workflow'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
-import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 
-type Props = {}
-
-const WorkflowForm = (props: Props) => {
+const CreateWorkflow = () => {
   const [loading, setLoading] = useState(false)
   const form = useForm<z.infer<typeof workflowSchema>>({
     resolver: zodResolver(workflowSchema),
@@ -87,4 +86,4 @@ const WorkflowForm = (props: Props) => {
   )
 }
 
-export default WorkflowForm
+export default CreateWorkflow

@@ -1,16 +1,16 @@
 import { currentUser } from '@clerk/nextjs/server'
-import React from 'react'
 import { z } from 'zod'
 
 import {
   PageHeader,
   PageHeaderDescription,
-  PageHeaderHeading
+  PageHeaderHeading,
+  PageSeparate
 } from '@/components/shared/page-header'
 import { db } from '@/lib/db/db'
 import { userUpdateSchema } from '@/lib/validations/user'
+import ProfileForm from '@/features/forms/profile'
 
-import ProfileForm from './_components/profile-form'
 
 const Settings = async () => {
   const authUser = await currentUser()
@@ -31,11 +31,11 @@ const Settings = async () => {
 
   return (
     <>
-      <PageHeader separate>
+      <PageHeader>
         <PageHeaderHeading>Settings</PageHeaderHeading>
         <PageHeaderDescription>Update your profile information.</PageHeaderDescription>
       </PageHeader>
-
+      <PageSeparate/>
       <section>
         <div className="mb-8">
           <h2 className="text-xl font-semibold">User Profile</h2>

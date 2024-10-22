@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useCallback, useEffect, useState } from 'react'
-import { Loader } from '@/components/icons'
+import '@xyflow/react/dist/style.css'
+
 import {
   addEdge,
   Background,
+  BackgroundVariant,
   Connection,
   Controls,
   Edge,
@@ -14,16 +15,19 @@ import {
   useEdgesState,
   useNodesState
 } from '@xyflow/react'
-import '@xyflow/react/dist/style.css'
-import { useEditor } from '@/providers/editor-provider'
 import { usePathname } from 'next/navigation'
-import { useToast } from '@/hooks/use-toast'
+import { useCallback, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { v4 } from 'uuid'
-import ActionItem from './components/action-item'
+
+import { Loader } from '@/components/icons'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui'
-import FlowInstance from './components/flow-instance'
-import ActionProvider from './components/action-provider'
 import { editorActionItems } from '@/config/editor'
+import { useEditor } from '@/providers/editor-provider'
+
+import ActionItem from './components/action-item'
+import ActionProvider from './components/action-provider'
+import FlowInstance from './components/flow-instance'
 import Sidebar from './components/sidebar'
 
 const initialNodes: EditorNode[] = []
@@ -49,7 +53,6 @@ const EditorCanvas = () => {
   const [loading, setLoading] = useState(false)
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>()
 
-  const { toast } = useToast()
   const pathname = usePathname()
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
@@ -79,10 +82,7 @@ const EditorCanvas = () => {
       const triggerAlreadyExists = state.editor.elements.find((node) => node.type === 'Trigger')
 
       if (item.type === 'Trigger' && triggerAlreadyExists) {
-        toast({
-          title: "'Only one trigger can be added to automations at the moment'",
-          variant: 'destructive'
-        })
+        toast.error('Only one trigger can be added to automations at the moment')
         return
       }
 
@@ -104,10 +104,9 @@ const EditorCanvas = () => {
           metadata: {}
         }
       }
-      //@ts-ignore
       setNodes((nds) => nds.concat(newNode))
     },
-    [reactFlowInstance, state]
+    [reactFlowInstance, setNodes, state.editor.elements]
   )
 
   const handleClickCanvas = () => {
@@ -175,12 +174,12 @@ const EditorCanvas = () => {
   }, [handleKeyDown])
 
   return (
-    <ResizablePanelGroup direction="horizontal" className='absolute top-0 left-0'>
+    <ResizablePanelGroup direction="horizontal" className="absolute left-0 top-0">
       <ResizablePanel defaultSize={70}>
         <div className="flex h-full items-center justify-center">
-          <div className="relative h-full w-full pb-16">
+          <div className="relative size-full pb-16">
             {loading ? (
-              <div className="flex-center left-0 top-0 h-full w-full">
+              <div className="flex-center left-0 top-0 size-full">
                 <Loader />
               </div>
             ) : (
@@ -192,30 +191,25 @@ const EditorCanvas = () => {
                 onNodesChange={onNodesChange}
                 edges={edges}
                 onEdgesChange={onEdgesChange}
-                onConnect={onConnect} // @ts-ignore
+                onConnect={onConnect} // @ts-expect-error WIP:Fix this type error
                 onInit={setReactFlowInstance}
                 fitView
                 onClick={handleClickCanvas}
                 nodeTypes={nodeTypes}
-                onEdgeClick={(event, element) => setSelectedEdge(element)}
+                onEdgeClick={(_, element) => setSelectedEdge(element)}
               >
                 <Controls position="top-left" className="text-neutral-900" />
                 <MiniMap position="bottom-left" className="!bg-background" zoomable pannable />
-                <Background
-                  //@ts-ignore
-                  variant="dots"
-                  gap={12}
-                  size={1}
-                />
+                <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
               </ReactFlow>
             )}
           </div>
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={30} className="relative max-h-screen sm:block bg-background">
+      <ResizablePanel defaultSize={30} className="relative max-h-screen bg-background sm:block">
         {loading ? (
-          <div className="flex-center left-0 top-0 h-full w-full">
+          <div className="flex-center left-0 top-0 size-full">
             <Loader />
           </div>
         ) : (

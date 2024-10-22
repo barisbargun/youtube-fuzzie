@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   Button,
   Drawer,
@@ -29,7 +30,7 @@ const CustomDrawer = ({ title, desc, children, open, onOpenChange }: Props) => {
             {children}
           </DrawerHeader>
           <DrawerFooter>
-            <DrawerClose>
+            <DrawerClose asChild>
               <Button className="w-full" variant="outline" onClick={() => onOpenChange(false)}>
                 Close
               </Button>

@@ -1,23 +1,112 @@
 module.exports = {
   root: true,
+  env: {
+    node: true,
+    es6: true
+  },
+  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   parser: '@typescript-eslint/parser',
+  ignorePatterns: ['node_modules/*', 'public/mockServiceWorker.js', 'generators/*'],
   extends: [
+    'eslint:recommended',
     'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended'
+    'plugin:react/recommended',
+    'plugin:jsx-a11y/recommended',
+    'plugin:prettier/recommended',
+    'plugin:testing-library/react',
+    'plugin:jest-dom/recommended',
+    'plugin:tailwindcss/recommended',
+    'plugin:vitest/legacy-recommended'
   ],
-  parserOptions: {
-    sourceType: 'module',
-    ecmaVersion: 'latest'
-  },
-  plugins: ['simple-import-sort', 'import', 'prettier', 'tailwindcss'],
+  plugins: ['simple-import-sort', 'import', 'check-file'],
   rules: {
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
-    '@typescript-eslint/no-unused-vars': 'off',
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'error',
-    'tailwindcss/enforces-shorthand': 'error',
-    'tailwindcss/no-unnecessary-arbitrary-value': 'error',
+    'import/no-restricted-paths': [
+      'error',
+      {
+        zones: [
+          // disables cross-feature imports:
+          // eg. src/features/discussions should not import from src/features/comments, etc.
+          {
+            target: './src/features/auth',
+            from: './src/features',
+            except: ['./auth']
+          },
+          {
+            target: './src/features/comments',
+            from: './src/features',
+            except: ['./comments']
+          },
+          {
+            target: './src/features/discussions',
+            from: './src/features',
+            except: ['./discussions']
+          },
+          {
+            target: './src/features/teams',
+            from: './src/features',
+            except: ['./teams']
+          },
+          {
+            target: './src/features/users',
+            from: './src/features',
+            except: ['./users']
+          },
+          // enforce unidirectional codebase:
+
+          // e.g. src/app can import from src/features but not the other way around
+          {
+            target: './src/features',
+            from: './src/app'
+          },
+
+          // e.g src/features and src/app can import from these shared modules but not the other way around
+          {
+            target: ['./src/components', './src/hooks', './src/lib', './src/types', './src/utils'],
+            from: ['./src/features', './src/app']
+          }
+        ]
+      }
+    ],
+    'import/no-cycle': 'error',
+    'import/no-named-as-default-member': 'off',
+    'import/no-named-as-default': 'off',
+    '@next/next/no-img-element': 'off',
+    'linebreak-style': ['error', 'unix'],
+    'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/explicit-function-return-type': ['off'],
+    '@typescript-eslint/explicit-module-boundary-types': ['off'],
+    '@typescript-eslint/no-empty-function': ['off'],
+    '@typescript-eslint/no-explicit-any': ['off'],
+    'prettier/prettier': [
+      'error',
+      {
+        usePrettierrc: false
+        // endOfLine: 'crlf'
+      }
+    ],
+    'check-file/filename-naming-convention': [
+      'error',
+      {
+        '**/*.{ts,tsx}': 'KEBAB_CASE'
+      },
+      {
+        ignoreMiddleExtensions: true
+      }
+    ],
+    'check-file/folder-naming-convention': [
+      'error',
+      {
+        '!(src/app)/**/*': 'KEBAB_CASE',
+        '!(**/__tests__)/**/*': 'KEBAB_CASE'
+      }
+    ]
   }
 }

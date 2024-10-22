@@ -14,7 +14,7 @@ type Props = {
 
 const FlowInstance = ({ children, edges, nodes }: Props) => {
   const pathname = usePathname()
-  const [isFlow, setIsFlow] = useState([])
+  const [isFlow, setIsFlow] = useState<any>([])
   const nodeConnection = useNode()
 
   const onFlowAutomation = useCallback(async () => {
@@ -32,22 +32,20 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
 
   const onPublishWorkflow = useCallback(async () => {
     const res = await workflowPublish(pathname.split('/').pop()!, true)
-    toast({
-      title: 'Flow Automation',
-      description: res?.publish ? 'Workflow published successfully' : 'Failed to publish workflow',
-      variant: res?.publish ? 'default' : 'destructive'
+    toast[res?.publish ? 'success' : 'error']('Flow Automation', {
+      description: res?.publish ? 'Workflow published successfully' : 'Failed to publish workflow'
     })
-  }, [])
+  }, [pathname])
 
   useEffect(() => {
     const onAutomateFlow = async () => {
-      const flows: any = edges.map((edge) => {
+      const flows = edges.map((edge) => {
         if (edge.target) return nodes.find((node) => node.id === edge.target).type
       })
       setIsFlow(flows)
     }
     onAutomateFlow()
-  }, [edges])
+  }, [edges, nodes])
 
   return (
     <div className="flex h-full flex-col gap-2">

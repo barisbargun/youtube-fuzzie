@@ -1,5 +1,9 @@
 'use client'
 
+import { PlusIcon } from '@radix-ui/react-icons'
+import React, { useState } from 'react'
+import { toast } from 'sonner'
+
 import {
   Button,
   Dialog,
@@ -10,15 +14,12 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui'
-import { PlusIcon } from '@radix-ui/react-icons'
-import React from 'react'
-import { useState } from 'react'
+
 import FileUploader from './components/file-uploader'
-import { useToast } from '@/hooks/use-toast'
 import getCroppedImg from './lib/crop-image'
 
 type Props = {
-  setImage: React.Dispatch<any>
+  setImage: React.Dispatch<string | null>
 }
 
 const FileUploaderDialog = ({ setImage }: Props) => {
@@ -27,14 +28,11 @@ const FileUploaderDialog = ({ setImage }: Props) => {
     url: '',
     pixels: { x: 0, y: 0, width: 0, height: 0 }
   })
-  const { toast } = useToast()
 
   const handleSubmit = async () => {
     if (!cropImg?.url)
-      return toast({
-        title: 'No images',
-        description: 'Please select a file',
-        variant: 'destructive'
+      return toast.error('No images', {
+        description: 'Please select a file'
       })
 
     const showImg = await getCroppedImg(cropImg.url, cropImg.pixels, 0)

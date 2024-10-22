@@ -1,10 +1,9 @@
-// WIP: Move ConnectionCard to the components folder
 import ConnectionCard from '@/components/shared/connection-card'
 import { MultiSelect } from '@/components/ui/multiple-select'
 import { ConnectionsConfig } from '@/config/connections'
 import { useNode } from '@/providers/node-provider'
 import { useNodeStore } from '@/store/node-store'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 
 type Props = ConnectionsConfig & {}
 

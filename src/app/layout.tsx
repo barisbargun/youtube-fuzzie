@@ -1,6 +1,5 @@
 import './globals.css'
 
-import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
 import { ThemeProvider } from 'next-themes'
 
@@ -9,6 +8,7 @@ import siteConfig from '@/config/site'
 import { cn } from '@/lib/utils'
 
 import { fontDmSans, fontPoppins } from './fonts'
+import { ClerkProvider } from '@clerk/nextjs'
 
 export const metadata: Metadata = {
   title: {
