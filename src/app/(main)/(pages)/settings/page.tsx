@@ -1,16 +1,16 @@
 import { currentUser } from '@clerk/nextjs/server'
 import { z } from 'zod'
 
+import ProfileForm from '@/components/others/profile-form'
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
   PageSeparate
 } from '@/components/shared/page-header'
+import FileUploaderDialog from '@/features/file-uploader/components/file-uploader'
 import { db } from '@/lib/db/db'
 import { userUpdateSchema } from '@/lib/validations/user'
-import ProfileForm from '@/features/forms/profile'
-
 
 const Settings = async () => {
   const authUser = await currentUser()
@@ -35,7 +35,7 @@ const Settings = async () => {
         <PageHeaderHeading>Settings</PageHeaderHeading>
         <PageHeaderDescription>Update your profile information.</PageHeaderDescription>
       </PageHeader>
-      <PageSeparate/>
+      <PageSeparate />
       <section>
         <div className="mb-8">
           <h2 className="text-xl font-semibold">User Profile</h2>
@@ -44,7 +44,9 @@ const Settings = async () => {
       </section>
       {user && (
         <>
-          <ProfileForm user={user} saveSettings={saveSettings} />
+          <ProfileForm user={user} saveSettings={saveSettings}>
+            <FileUploaderDialog/>
+          </ProfileForm>
         </>
       )}
     </>

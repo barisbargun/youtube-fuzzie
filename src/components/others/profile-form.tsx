@@ -1,4 +1,13 @@
 'use client'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { User } from '@prisma/client'
+import { Loader2, Trash2Icon } from 'lucide-react'
+import Image from 'next/image'
+import React, { ReactElement, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
 import {
   Button,
   Form,
@@ -9,22 +18,15 @@ import {
   FormMessage,
   Input
 } from '@/components/ui'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import Image from 'next/image'
-import { User } from '@prisma/client'
-import { Loader2, Trash2Icon } from 'lucide-react'
-import FileUploaderDialog from '@/features/file-uploader'
 import { userUpdateSchema } from '@/lib/validations/user'
 
 type Props = {
   user: User
   saveSettings: (values: z.infer<typeof userUpdateSchema>) => Promise<void>
+  children: ReactElement
 }
 
-const ProfileForm = ({ user, saveSettings }: Props) => {
+const ProfileForm = ({ user, saveSettings, children }: Props) => {
   const [loading, setLoading] = useState(false)
 
   const form = useForm<z.infer<typeof userUpdateSchema>>({
@@ -40,7 +42,8 @@ const ProfileForm = ({ user, saveSettings }: Props) => {
     setLoading(true)
     try {
       await saveSettings({ ...values })
-    } catch (error) {
+    } catch (_) {
+      toast.error('Failed to save user settings')
     } finally {
       setLoading(false)
     }
@@ -71,7 +74,8 @@ const ProfileForm = ({ user, saveSettings }: Props) => {
               />
               <div className="mt-4 flex gap-2">
                 <FormControl>
-                  <FileUploaderDialog setImage={field.onChange} />
+                  {/* <FileUploader setImage={field.onChange} /> */}
+                  {React.cloneElement(children, { setImage: field.onChange })}
                 </FormControl>
                 <Button type="button" onClick={handleDefaultImage} variant="destructive" size="sm">
                   <Trash2Icon className="mr-2 size-4" />
