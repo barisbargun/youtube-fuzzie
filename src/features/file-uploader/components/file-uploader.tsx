@@ -1,52 +1,78 @@
-import { useCallback } from 'react'
-import { FileWithPath, useDropzone } from 'react-dropzone'
+'use client'
+
+import { DialogContentProps } from '@radix-ui/react-dialog'
+import { PlusIcon } from '@radix-ui/react-icons'
+import React, { useState } from 'react'
 import { toast } from 'sonner'
 
-import ImageCrop from './image-crop'
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui'
+import { cn } from '@/lib/utils'
 
-type props = {
-  cropImg: IFileUploader
-  setCropImg: React.Dispatch<React.SetStateAction<IFileUploader>>
+import FileUploaderCrop from './crop'
+import getCroppedImg from '../lib/crop-image'
+
+type Props = DialogContentProps & {
+  setImage?: React.Dispatch<string | null>
+  children?: React.ReactNode
 }
 
-const FileUploader = ({ cropImg, setCropImg }: props) => {
-  const onDrop = useCallback(
-    (acceptedFiles: FileWithPath[]) => {
-      const size = acceptedFiles[0].size / 1024
-      if (size > 701)
-        return toast.error('File size is too large', {
-          description: 'Please upload a file less than 700KB'
-        })
-      setCropImg((v) => ({ ...v, url: URL.createObjectURL(acceptedFiles[0]) }))
-    },
-    [setCropImg]
-  )
-
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: {
-      'image/*': ['.png', '.jpeg', '.jpg']
-    }
+const FileUploaderDialog = ({ setImage, children, className, ...props }: Props) => {
+  const [isDialogOpen, setDialogOpen] = useState(false)
+  const [cropImg, setCropImg] = useState<IFileUploader>({
+    url: '',
+    pixels: { x: 0, y: 0, width: 0, height: 0 }
   })
 
-  return (
-    <div className="flex-center w-full">
-      <div {...(!cropImg?.url ? getRootProps() : {})} className="flex w-full">
-        {!cropImg?.url && <input {...getInputProps()} />}
+  const handleSubmit = async () => {
+    if (!cropImg?.url)
+      return toast.error('No images', {
+        description: 'Please select a file'
+      })
 
-        <div className="flex-center flex h-[250px] w-full cursor-pointer flex-col sm:h-[300px]">
-          {cropImg?.url ? (
-            <ImageCrop cropImg={cropImg} setCropImg={setCropImg} />
-          ) : (
-            <div className="flex-center size-full flex-col rounded-xl border-2 border-dashed">
-              <h3 className="text-sm text-muted-foreground">Click or drag a file</h3>
-              <h3 className="text-xs text-muted-foreground">(SVG, PNG, JPG, AVIF)</h3>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    const showImg = await getCroppedImg(cropImg.url, cropImg.pixels, 0)
+    setImage!(showImg)
+    setCropImg({ url: '', pixels: { x: 0, y: 0, width: 0, height: 0 } })
+    setDialogOpen(false)
+  }
+  if (!setImage) return null
+  return (
+    <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
+      <DialogTrigger asChild>
+        {children || (
+          <Button variant="outline" size="sm">
+            <PlusIcon className="mr-2 size-5" />
+            <span>Change Image</span>
+          </Button>
+        )}
+      </DialogTrigger>
+      <DialogContent
+        className={cn('max-h-[90%] w-[600px] max-w-[90vw] overflow-y-auto border-4', className)}
+        {...props}
+      >
+        <DialogHeader>
+          <DialogTitle>Upload Image</DialogTitle>
+          <DialogDescription>
+            Maximum 700kb photos, less is better. You can zoom your picture.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="w-f flex !flex-col items-center gap-6 overflow-hidden">
+          <FileUploaderCrop cropImg={cropImg} setCropImg={setCropImg} />
+          <Button onClick={handleSubmit} variant="secondary" className="!ml-0 w-full">
+            Done
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 
-export default FileUploader
+export default FileUploaderDialog
