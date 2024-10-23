@@ -6,7 +6,6 @@ module.exports = {
   },
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   parser: '@typescript-eslint/parser',
-  ignorePatterns: ['node_modules/*', 'public/mockServiceWorker.js', 'generators/*'],
   extends: [
     'eslint:recommended',
     'next/core-web-vitals',
@@ -16,15 +15,26 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:testing-library/react',
     'plugin:jest-dom/recommended',
-    'plugin:tailwindcss/recommended',
     'plugin:vitest/legacy-recommended'
   ],
-  plugins: ['simple-import-sort', 'import', 'check-file'],
+  plugins: ['simple-import-sort', 'import', 'tailwindcss', 'check-file'],
   rules: {
+    '@next/next/no-img-element': 'off',
+    'linebreak-style': ['error', 'unix'],
+    'tailwindcss/enforces-shorthand': 'error',
+    'tailwindcss/no-unnecessary-arbitrary-value': 'error',
+
+    'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
+
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'error',
+    'import/no-cycle': 'error',
+    'import/no-named-as-default-member': 'off',
+    'import/no-named-as-default': 'off',
     'import/no-restricted-paths': [
       'error',
       {
@@ -32,29 +42,19 @@ module.exports = {
           // disables cross-feature imports:
           // eg. src/features/discussions should not import from src/features/comments, etc.
           {
-            target: './src/features/auth',
+            target: './src/features/editor-canvas',
             from: './src/features',
-            except: ['./auth']
+            except: ['./editor-canvas']
           },
           {
-            target: './src/features/comments',
+            target: './src/features/file-uploader',
             from: './src/features',
-            except: ['./comments']
+            except: ['./file-uploader']
           },
           {
-            target: './src/features/discussions',
+            target: './src/features/workflows',
             from: './src/features',
-            except: ['./discussions']
-          },
-          {
-            target: './src/features/teams',
-            from: './src/features',
-            except: ['./teams']
-          },
-          {
-            target: './src/features/users',
-            from: './src/features',
-            except: ['./users']
+            except: ['./workflows']
           },
           // enforce unidirectional codebase:
 
@@ -72,19 +72,20 @@ module.exports = {
         ]
       }
     ],
-    'import/no-cycle': 'error',
-    'import/no-named-as-default-member': 'off',
-    'import/no-named-as-default': 'off',
-    '@next/next/no-img-element': 'off',
-    'linebreak-style': ['error', 'unix'],
-    'react/prop-types': 'off',
-    'react/react-in-jsx-scope': 'off',
-    'jsx-a11y/anchor-is-valid': 'off',
-    '@typescript-eslint/no-unused-vars': ['error'],
+
     '@typescript-eslint/explicit-function-return-type': ['off'],
     '@typescript-eslint/explicit-module-boundary-types': ['off'],
     '@typescript-eslint/no-empty-function': ['off'],
     '@typescript-eslint/no-explicit-any': ['off'],
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_'
+      }
+    ],
+
     'prettier/prettier': [
       'error',
       {
