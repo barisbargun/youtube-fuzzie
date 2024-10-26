@@ -1,10 +1,11 @@
-// WIP: Move ConnectionCard to the components folder
-import ConnectionCard from '@/app/(main)/(pages)/_components/connection-card'
+import { useMemo } from 'react'
+
+import ConnectionCard from '@/components/shared/connection-card'
 import { MultiSelect } from '@/components/ui/multiple-select'
 import { ConnectionsConfig } from '@/config/connections'
-import { useNode } from '@/providers/node-provider'
-import { useNodeStore } from '@/store/node-store'
-import React, { useMemo } from 'react'
+import { useNode } from '@/features/editor-canvas/providers/node-provider'
+
+import { useNodeStore } from '../../store/node-store'
 
 type Props = ConnectionsConfig & {}
 
@@ -30,17 +31,17 @@ const AccordionAccount = ({
 
   return (
     <div>
-      <ConnectionCard title={title} img={img} desc={desc} connected={!!isConnected} />
+      <ConnectionCard connected={!!isConnected} desc={desc} img={img} title={title} />
       {slackSpecial && isConnected && (
         <div>
-          {slackChannels.length ? (
+          {slackChannels.length > 0 ? (
             <>
               <div>Seleck the slack channels to send notification and messages:</div>
               <MultiSelect // https://github.com/sersavan/shadcn-multi-select-component
-                options={slackChannels}
                 defaultValue={selectedSlackChannels}
-                onValueChange={setSelectedSlackChannels}
+                options={slackChannels}
                 placeholder="Select channels"
+                onValueChange={setSelectedSlackChannels}
               />
             </>
           ) : (

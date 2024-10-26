@@ -1,8 +1,8 @@
 'use client'
-import React from 'react'
-import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion'
+import { motion, MotionValue, useScroll, useSpring, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import React from 'react'
 
 export const Header = () => {
   return (
@@ -31,25 +31,25 @@ export const ProductCard = ({
 }) => {
   return (
     <motion.div
+      key={product.title}
+      className="group/product relative aspect-[10/9] w-screen flex-shrink-0 sm:aspect-[14/9] lg:w-[48vw]"
       style={{
         x: translate
       }}
       whileHover={{
         y: -20
       }}
-      key={product.title}
-      className="group/product relative aspect-[10/9] w-[100vw] flex-shrink-0 sm:aspect-[14/9] lg:w-[48vw]"
     >
-      <Link href={product.link} className="block group-hover/product:shadow-2xl">
+      <Link className="block group-hover/product:shadow-2xl" href={product.link}>
         <Image
-          src={product.thumbnail}
-          height="600"
-          width="600"
-          className="absolute inset-0 h-full w-full object-cover object-left-top"
           alt={product.title}
+          className="absolute inset-0 size-full object-cover object-left-top"
+          height="600"
+          src={product.thumbnail}
+          width="600"
         />
       </Link>
-      <div className="pointer-events-none absolute inset-0 h-full w-full bg-black opacity-0 group-hover/product:opacity-70"></div>
+      <div className="pointer-events-none absolute inset-0 size-full bg-black opacity-0 group-hover/product:opacity-70"></div>
       <h2 className="absolute bottom-4 left-4 text-white opacity-0 group-hover/product:opacity-100">
         {product.title}
       </h2>
@@ -93,27 +93,27 @@ const HeroParallax = ({
     >
       <Header />
       <motion.div
+        className=""
         style={{
           rotateX,
           rotateZ,
           translateY,
           opacity
         }}
-        className=""
       >
         <motion.div className="mb-20 flex flex-row-reverse space-x-20 space-x-reverse">
           {firstRow.map((product) => (
-            <ProductCard product={product} translate={translateX} key={product.title} />
+            <ProductCard key={product.title} product={product} translate={translateX} />
           ))}
         </motion.div>
         <motion.div className="mb-20 flex flex-row space-x-20">
           {secondRow.map((product) => (
-            <ProductCard product={product} translate={translateXReverse} key={product.title} />
+            <ProductCard key={product.title} product={product} translate={translateXReverse} />
           ))}
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-20 space-x-reverse">
           {thirdRow.map((product) => (
-            <ProductCard product={product} translate={translateX} key={product.title} />
+            <ProductCard key={product.title} product={product} translate={translateX} />
           ))}
         </motion.div>
       </motion.div>

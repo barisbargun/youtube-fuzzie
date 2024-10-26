@@ -9,9 +9,9 @@ const isPublicRoute = createRouteMatcher([
   '/api/payment/success'
 ])
 
-export default clerkMiddleware((auth, req) => {
-  // if (isProtectedRoute(req)) auth().protect()
-  if (!isPublicRoute(req)) {
+export default clerkMiddleware((auth, request) => {
+  // if (isProtectedRoute(request)) auth().protect()
+  if (!isPublicRoute(request)) {
     auth().protect()
   }
 })
@@ -19,6 +19,7 @@ export default clerkMiddleware((auth, req) => {
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
+    // eslint-disable-next-line unicorn/prefer-string-raw
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     // Always run for API routes
     '/(api|trpc)(.*)'

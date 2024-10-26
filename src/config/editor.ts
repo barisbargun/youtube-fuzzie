@@ -1,9 +1,4 @@
-export type EditorActionItems = {
-  [key in EditorCanvasTypes]: {
-    description: string
-    type: EditorActionTypes
-  }
-}
+import { EditorActionItems } from '@/features/editor-canvas/types/editor'
 
 export const editorActionItems: EditorActionItems = {
   GoogleDrive: {

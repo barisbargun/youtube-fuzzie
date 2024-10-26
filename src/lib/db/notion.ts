@@ -1,15 +1,28 @@
-"use server"
-import { db } from "./db"
-import { currentUser } from "@clerk/nextjs/server"
-import { Client } from "@notionhq/client";
+'use server'
+import { currentUser } from '@clerk/nextjs/server'
+import { Client } from '@notionhq/client'
+
+// eslint-disable-next-line import/no-restricted-paths
+import { NodeProviderProps } from '@/features/editor-canvas/types/node'
+import { ConnectionNotion } from '@/types/connection'
+
+import prisma from './prisma'
+
 type Props = ConnectionNotion & {
   userId: string
 }
 
-export const notionConnect = async ({ accessToken, workspaceId, workspaceIcon, workspaceName, databaseId, userId }: Props) => {
-  if (!accessToken) return;
+export const notionConnect = async ({
+  accessToken,
+  workspaceId,
+  workspaceIcon,
+  workspaceName,
+  databaseId,
+  userId
+}: Props) => {
+  if (!accessToken) return
 
-  const notionDb = await db.notion.findFirst({
+  const notionDatabase = await prisma.notion.findFirst({
     where: {
       accessToken
     },
@@ -22,8 +35,8 @@ export const notionConnect = async ({ accessToken, workspaceId, workspaceIcon, w
     }
   })
 
-  if (!notionDb) {
-    await db.notion.create({
+  if (!notionDatabase) {
+    await prisma.notion.create({
       data: {
         userId,
         accessToken,
@@ -43,25 +56,29 @@ export const notionConnect = async ({ accessToken, workspaceId, workspaceIcon, w
 }
 
 export const notionGetConnection = async () => {
-  const user = await currentUser();
+  const user = await currentUser()
   if (user) {
-    return await db.notion.findFirst({
+    return await prisma.notion.findFirst({
       where: {
         userId: user.id
-      },
+      }
     })
   }
 }
 
-export const notionGetDb = async (accessToken: string, databaseId: string) => {
-  const notion = new Client({ auth: accessToken });
-  return await notion.databases.retrieve({ database_id: databaseId });
+export const notionGetDatabase = async (accessToken: string, databaseId: string) => {
+  const notion = new Client({ auth: accessToken })
+  return await notion.databases.retrieve({ database_id: databaseId })
 }
 
-export const notionCreatePage = async (accessToken: string, databaseId: string, content: string) => {
-  const notion = new Client({ auth: accessToken });
+export const notionCreatePage = async (
+  accessToken: string,
+  databaseId: string,
+  content: string
+) => {
+  const notion = new Client({ auth: accessToken })
   return await notion.pages.create({
-    parent: { type: "database_id", database_id: databaseId },
+    parent: { type: 'database_id', database_id: databaseId },
     properties: {
       name: [
         {
@@ -69,9 +86,9 @@ export const notionCreatePage = async (accessToken: string, databaseId: string, 
         }
       ]
     }
-  });
+  })
 }
 
 export const notionSetContent = (connection: NodeProviderProps, content: any) => {
-  connection.setNotionNode((prev) => ({ ...prev, content }));
+  connection.setNotionNode((prev) => ({ ...prev, content }))
 }

@@ -1,3 +1,6 @@
+import { NodeProviderProps } from '@/features/editor-canvas/types/node'
+import { ConnectionServices, ConnectionTypes } from '@/types/connection'
+
 export interface ConnectionsConfig {
   img: string
   title: ConnectionTypes
@@ -40,7 +43,6 @@ export const connectionsConfig: ConnectionsConfig[] = [
   }
 ]
 
-
 export const CONNECTION_SEARCH_PARAMS: ConnectionServices = {
   /** Discord */
   webhookId: 'webhook_id',
@@ -64,5 +66,5 @@ export const CONNECTION_SEARCH_PARAMS: ConnectionServices = {
   slackAccessToken: 'slack_access_token',
   botUserId: 'bot_user_id',
   teamId: 'team_id',
-  teamName: 'team_name',
+  teamName: 'team_name'
 }

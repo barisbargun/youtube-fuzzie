@@ -1,11 +1,11 @@
 'use client'
-import React, { useId, useMemo } from 'react'
-import { useEffect, useState } from 'react'
-import Particles, { initParticlesEngine } from '@tsparticles/react'
 import type { Container, SingleOrMultiple } from '@tsparticles/engine'
+import Particles, { initParticlesEngine } from '@tsparticles/react'
 import { loadSlim } from '@tsparticles/slim'
-import { cn } from '@/lib/utils'
 import { motion, useAnimation } from 'framer-motion'
+import { useEffect, useId, useState } from 'react'
+
+import { cn } from '@/lib/utils'
 
 type ParticlesProps = {
   id?: string
@@ -34,7 +34,6 @@ const Sparkles = (props: ParticlesProps) => {
 
   const particlesLoaded = async (container?: Container) => {
     if (container) {
-      console.log(container)
       controls.start({
         opacity: 1,
         transition: {
@@ -49,9 +48,8 @@ const Sparkles = (props: ParticlesProps) => {
     <motion.div animate={controls} className={cn('opacity-0', className)}>
       {init && (
         <Particles
-          id={id || generatedId}
           className={cn('h-full w-full')}
-          particlesLoaded={particlesLoaded}
+          id={id || generatedId}
           options={{
             background: {
               color: {
@@ -421,6 +419,7 @@ const Sparkles = (props: ParticlesProps) => {
             },
             detectRetina: true
           }}
+          particlesLoaded={particlesLoaded}
         />
       )}
     </motion.div>

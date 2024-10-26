@@ -1,16 +1,15 @@
-import { Button } from '@/components/ui'
-import { useToast } from '@/hooks/use-toast'
-import {
-  notionCreatePage,
-  slackMsgChannel,
-  workflowCreateTemplate,
-  postContentToWebHook
-} from '@/lib/db'
-import { onContentChange } from '@/lib/editor'
-import { useNode } from '@/providers/node-provider'
-import { useNodeStore } from '@/store/node-store'
 import { usePathname } from 'next/navigation'
-import React from 'react'
+import { toast } from 'sonner'
+
+import { Button } from '@/components/ui/button'
+import { onContentChange } from '@/features/editor-canvas/lib/editor'
+import { useNode } from '@/features/editor-canvas/providers/node-provider'
+import { useNodeStore } from '@/features/editor-canvas/store/node-store'
+import { postContentToWebHook } from '@/lib/db/discord'
+import { notionCreatePage } from '@/lib/db/notion'
+import { slackMessageChannel } from '@/lib/db/slack'
+import { workflowCreateTemplate } from '@/lib/db/workflows'
+import { ConnectionPrimaryTypes } from '@/types/connection'
 
 type Props = {
   service: ConnectionPrimaryTypes
@@ -20,38 +19,38 @@ const ActionButton = ({ service }: Props) => {
   const connection = useNode()
   const { selectedSlackChannels, setSelectedSlackChannels } = useNodeStore()
   const pathname = usePathname()
-  const { toast } = useToast()
 
   const handleAction = async () => {
     switch (service) {
       case 'Discord': {
         const node = connection.discordNode
-        const res = await postContentToWebHook(node.content, node.webhookURL)
-        if (!res) return
+        const resp = await postContentToWebHook(node.content, node.webhookURL)
+        if (!resp) return
         break
       }
 
       case 'Notion': {
         const node = connection.notionNode
-        const res = await notionCreatePage(node.databaseId, node.accessToken, node.content.name);
-        if (!res) return
+        const resp = await notionCreatePage(node.databaseId, node.accessToken, node.content.name)
+        if (!resp) return
         break
       }
 
       case 'Slack': {
         const node = connection.slackNode
-        const res = await slackMsgChannel(
+        const resp = await slackMessageChannel(
           node.slackAccessToken,
           selectedSlackChannels,
           node.content
         )
-        if (!res) return
+        if (!resp) return
         setSelectedSlackChannels([])
         break
       }
 
-      default:
+      default: {
         return
+      }
     }
     onContentChange(connection, service, '')
   }
@@ -60,36 +59,40 @@ const ActionButton = ({ service }: Props) => {
     const splitPath = pathname.split('/').pop()
     if (!splitPath) return
 
-    // @ts-ignore
-    let params: Parameters<typeof workflowCreateTemplate> = [splitPath, service]
+    // @ts-expect-error param will be added later.
+    const params: Parameters<typeof workflowCreateTemplate> = [splitPath, service]
 
     switch (service) {
-      case 'Discord':
+      case 'Discord': {
         params.push(connection.discordNode.content)
         break
+      }
 
-      case 'Slack':
+      case 'Slack': {
         params.push(
           connection.slackNode.content,
-          selectedSlackChannels as any,
+          selectedSlackChannels,
           connection.slackNode.slackAccessToken
         )
         break
+      }
 
-      case 'Notion':
+      case 'Notion': {
         params.push(
           connection.notionNode.content,
-          null,
+          undefined,
           connection.notionNode.accessToken,
           connection.notionNode.databaseId
         )
-
-      default:
         break
+      }
+
+      default: {
+        break
+      }
     }
-    const res = await workflowCreateTemplate(...params)
-    if (res)
-      toast({ title: 'Template saved', description: 'Your template has been saved successfully' })
+    const resp = await workflowCreateTemplate(...params)
+    if (resp) toast('Template saved', { description: 'Your template has been saved successfully' })
   }
 
   return (

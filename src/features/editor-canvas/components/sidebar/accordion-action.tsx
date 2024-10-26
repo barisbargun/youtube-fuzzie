@@ -1,13 +1,19 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Input } from '@/components/ui'
-import { useToast } from '@/hooks/use-toast'
-import { onContentChange } from '@/lib/editor'
-import { useNodeStore } from '@/store/node-store'
 import axios from 'axios'
 import { useEffect, useMemo, useState } from 'react'
-import GoogleFileDetails from './google-file-details'
-import { useNode } from '@/providers/node-provider'
-import GoogleDriveFiles from './google-drive-files'
+import { toast } from 'sonner'
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { ConnectionPrimaryTypes } from '@/types/connection'
+
+import { onContentChange } from '../../lib/editor'
+import { useNode } from '../../providers/node-provider'
+import { useNodeStore } from '../../store/node-store'
+import { EditorState } from '../../types/editor'
+import { NodeProviderProps } from '../../types/node'
 import ActionButton from './action-button'
+import GoogleDriveFiles from './google-drive-files'
+import GoogleFileDetails from './google-file-details'
 
 type ConnProps = NodeProviderProps
 type Props = {
@@ -19,7 +25,7 @@ const AccordionAction = ({ state }: Props) => {
   const connection = useNode()
 
   const title = state.editor.selectedNode.data.title
-  const { toast } = useToast()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [provider, setProvider] = useState<any>()
 
   useEffect(() => {
@@ -27,37 +33,50 @@ const AccordionAction = ({ state }: Props) => {
       try {
         const response = await axios.get('/api/drive')
         if (response) {
-          toast({ title: 'Fetched File' })
+          toast.success('Fetched File')
           setGoogleFile(response.data.message.files[0])
         }
-      } catch (error) {}
-      toast({ title: 'Failed to fetch file' })
+      } catch {
+        toast.error('Failed to fetch file')
+      }
     }
     request()
-  }, [])
+  }, [setGoogleFile])
 
   const isConnected = useMemo(() => {
     switch (title) {
-      case 'GoogleDrive':
+      case 'GoogleDrive': {
         setProvider(connection.googleNode)
         return !connection.isLoading
+      }
 
-      case 'Slack':
+      case 'Slack': {
         setProvider(connection.slackNode)
         return !!connection.slackNode.slackAccessToken
+      }
 
-      case 'Discord':
+      case 'Discord': {
         setProvider(connection.discordNode)
         return !!connection.discordNode.webhookURL
+      }
 
-      case 'Notion':
+      case 'Notion': {
         setProvider(connection.notionNode)
         return !!connection.notionNode.accessToken
+      }
 
-      default:
+      default: {
         break
+      }
     }
-  }, [title, connection.isLoading])
+  }, [
+    title,
+    connection.isLoading,
+    connection.googleNode,
+    connection.slackNode,
+    connection.discordNode,
+    connection.notionNode
+  ])
 
   if (!title || !isConnected) return <p>Not connected.</p>
   return (
@@ -76,14 +95,14 @@ const AccordionAction = ({ state }: Props) => {
           <CardContent className="flex flex-col items-center gap-4">
             <Input
               value={provider?.content || ''}
-              onChange={(e) =>
-                onContentChange(connection, title as ConnectionPrimaryTypes, e.target.value)
+              onChange={(event) =>
+                onContentChange(connection, title as ConnectionPrimaryTypes, event.target.value)
               }
             />
             {JSON.stringify(googleFile) !== '{}' && title !== 'GoogleDrive' && (
               <>
                 <p>Drive File</p>
-                <GoogleFileDetails title={title} googleFile={googleFile} />
+                <GoogleFileDetails googleFile={googleFile} title={title} />
               </>
             )}
             {title === 'GoogleDrive' && <GoogleDriveFiles />}

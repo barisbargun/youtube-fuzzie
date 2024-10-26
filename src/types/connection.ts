@@ -1,7 +1,7 @@
-type ConnectionPrimaryTypes = 'Notion' | 'Slack' | 'Discord'
-type ConnectionTypes = ConnectionPrimaryTypes & 'GoogleDrive'
+export type ConnectionPrimaryTypes = 'Notion' | 'Slack' | 'Discord'
+export type ConnectionTypes = ConnectionPrimaryTypes | 'GoogleDrive'
 
-type ConnectionDiscord = {
+export type ConnectionDiscord = {
   channelId: string
   webhookId: string
   webhookName: string
@@ -10,7 +10,7 @@ type ConnectionDiscord = {
   guildId: string
 }
 
-type ConnectionNotion = {
+export type ConnectionNotion = {
   accessToken: string
   workspaceId: string
   workspaceIcon: string
@@ -18,7 +18,7 @@ type ConnectionNotion = {
   databaseId: string
 }
 
-type ConnectionSlack = {
+export type ConnectionSlack = {
   appId: string
   authedUserId: string
   authedUserToken: string
@@ -28,4 +28,4 @@ type ConnectionSlack = {
   teamName: string
 }
 
-type ConnectionServices = ConnectionDiscord & ConnectionNotion & ConnectionSlack
+export type ConnectionServices = ConnectionDiscord & ConnectionNotion & ConnectionSlack

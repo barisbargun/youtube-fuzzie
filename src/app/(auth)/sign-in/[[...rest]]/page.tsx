@@ -1,9 +1,6 @@
 import { SignIn } from '@clerk/nextjs'
-import React from 'react'
 
-type Props = {}
-
-const page = (props: Props) => {
+const page = () => {
   return (
     <div className="flex-center min-h-screen">
       <SignIn />

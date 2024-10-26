@@ -1,16 +1,30 @@
-"use server"
-import { db } from "./db"
-import { currentUser } from "@clerk/nextjs/server";
-import axios from "axios";
+'use server'
+import { currentUser } from '@clerk/nextjs/server'
+import axios from 'axios'
+
+// eslint-disable-next-line import/no-restricted-paths
+import { Option } from '@/features/editor-canvas/types/node-store'
+import { ConnectionSlack } from '@/types/connection'
+
+import { prisma } from './prisma'
 
 type Props = ConnectionSlack & {
   userId: string
 }
 
-export const slackConnect = async ({ appId, authedUserId, authedUserToken, slackAccessToken, botUserId, teamId, teamName, userId }: Props) => {
-  if (!slackAccessToken) return;
+export const slackConnect = async ({
+  appId,
+  authedUserId,
+  authedUserToken,
+  slackAccessToken,
+  botUserId,
+  teamId,
+  teamName,
+  userId
+}: Props) => {
+  if (!slackAccessToken) return
 
-  const slackDb = await db.slack.findFirst({
+  const slackDatabase = await prisma.slack.findFirst({
     where: {
       slackAccessToken
     },
@@ -19,9 +33,9 @@ export const slackConnect = async ({ appId, authedUserId, authedUserToken, slack
     }
   })
 
-  if (slackDb) return;
+  if (slackDatabase) return
 
-  await db.slack.create({
+  await prisma.slack.create({
     data: {
       userId,
       slackAccessToken,
@@ -42,24 +56,22 @@ export const slackConnect = async ({ appId, authedUserId, authedUserToken, slack
 }
 
 export const slackGetConnection = async () => {
-  const user = await currentUser();
+  const user = await currentUser()
   if (user) {
-    return await db.slack.findFirst({
+    return await prisma.slack.findFirst({
       where: {
         userId: user.id
-      },
+      }
     })
   }
 }
 
-export const slackListBotChannels = async (
-  accessToken: string
-): Promise<Option[]> => {
-  const params = new URLSearchParams({
+export const slackListBotChannels = async (accessToken: string): Promise<Option[]> => {
+  const parameters = new URLSearchParams({
     types: 'public_channel,private_channel',
-    limit: '200',
+    limit: '200'
   })
-  const url = `https://slack.com/api/conversations.list?${params}`
+  const url = `https://slack.com/api/conversations.list?${parameters}`
 
   const { data } = await axios.get(url, {
     headers: {
@@ -69,31 +81,39 @@ export const slackListBotChannels = async (
 
   if (!data.ok) throw new Error(data.error)
 
-  if (!data?.channels?.length) return [];
+  if (!data?.channels?.length) return []
 
   return (data.channels as any[])
-    .filter(ch => ch.is_member)
-    .map(ch => { return { label: ch.name, value: ch.id } });
+    .filter((ch) => ch.is_member)
+    .map((ch) => {
+      return { label: ch.name, value: ch.id }
+    })
 }
 
-export const slackMsgChannel = async (
+export const slackMessageChannel = async (
   accessToken: string,
   channelId: string[],
   content: string
 ) => {
   const url = 'https://slack.com/api/chat.postMessage'
 
-  return await Promise.all(channelId.map(async id => {
-    await axios.post(url, {
-      channel: id,
-      text: content
-    }, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json;charset=utf-8'
-      }
+  return await Promise.all(
+    channelId.map(async (id) => {
+      await axios.post(
+        url,
+        {
+          channel: id,
+          text: content
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json;charset=utf-8'
+          }
+        }
+      )
     })
-  }))
+  )
 }
 // If get any error, check the code below.
 

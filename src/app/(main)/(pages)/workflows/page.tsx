@@ -1,22 +1,25 @@
-import React from 'react'
-import WorkflowButton from './_components/button'
-import WorkflowCard from './_components/card'
-import { PageHeader, PageHeaderHeading, PageHeaderDescription } from '@/components/shared/page-header'
+import { PageHeader, PageHeaderHeading, PageSeparate } from '@/components/shared/page-header'
+import WorkflowCard from '@/features/workflows/components/card'
+import WorkflowForm from '@/features/workflows/components/create-workflow'
+import OpenForm from '@/features/workflows/components/open-form'
 
-type Props = {}
-
-const Workflows = (props: Props) => {
+const Workflows = () => {
   return (
     <>
-      <PageHeader separate>
-        <PageHeaderHeading>Workflows</PageHeaderHeading>
-      </PageHeader>
+      <div className="flex items-center justify-between">
+        <PageHeader>
+          <PageHeaderHeading>Workflows</PageHeaderHeading>
+        </PageHeader>
+        <OpenForm workflowForm={<WorkflowForm />} />
+      </div>
+      <PageSeparate />
+
       <section>
         <WorkflowCard
-          id="asdasd"
-          title="automation workflow"
           desc="creating a test workflow"
+          id="asdasd"
           publish={false}
+          title="automation workflow"
         />
       </section>
     </>

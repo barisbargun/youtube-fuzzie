@@ -1,25 +1,26 @@
-import React from 'react'
-import ProfileForm from './_components/profile-form'
 import { currentUser } from '@clerk/nextjs/server'
-import { db } from '@/lib/db/db'
 import { z } from 'zod'
-import { userUpdateSchema } from '@/lib/validations'
+
+import ProfileForm from '@/components/others/profile-form'
 import {
   PageHeader,
   PageHeaderDescription,
-  PageHeaderHeading
+  PageHeaderHeading,
+  PageSeparate
 } from '@/components/shared/page-header'
+import FileUploaderDialog from '@/features/file-uploader/components/file-uploader'
+import { prisma } from '@/lib/db/prisma'
+import { userUpdateSchema } from '@/lib/validations/user'
 
 const Settings = async () => {
   const authUser = await currentUser()
 
-  if (!authUser) return null
-  const user = await db.user.findUnique({ where: { clerkId: authUser.id } })
+  if (!authUser) return
+  const user = await prisma.user.findUnique({ where: { clerkId: authUser.id } })
 
   const saveSettings = async (values: z.infer<typeof userUpdateSchema>) => {
     'use server'
-    console.log(values)
-    await db.user.update({
+    await prisma.user.update({
       where: { clerkId: authUser.id },
       data: {
         name: values.name,
@@ -30,11 +31,11 @@ const Settings = async () => {
 
   return (
     <>
-      <PageHeader separate>
+      <PageHeader>
         <PageHeaderHeading>Settings</PageHeaderHeading>
         <PageHeaderDescription>Update your profile information.</PageHeaderDescription>
       </PageHeader>
-
+      <PageSeparate />
       <section>
         <div className="mb-8">
           <h2 className="text-xl font-semibold">User Profile</h2>
@@ -43,7 +44,9 @@ const Settings = async () => {
       </section>
       {user && (
         <>
-          <ProfileForm user={user} saveSettings={saveSettings} />
+          <ProfileForm saveSettings={saveSettings} user={user}>
+            <FileUploaderDialog />
+          </ProfileForm>
         </>
       )}
     </>

@@ -1,11 +1,15 @@
-"use server"
+'use server'
 
-import { Prisma } from "@prisma/client"
-import { db } from "./db"
-import { currentUser } from "@clerk/nextjs/server"
+import { currentUser } from '@clerk/nextjs/server'
+import { Prisma } from '@prisma/client'
 
-const updateDb = async (flowId: string, data: Prisma.WorkflowsUpdateInput) => {
-  return await db.workflows.update({
+// eslint-disable-next-line import/no-restricted-paths
+import { Option } from '@/features/editor-canvas/types/node-store'
+
+import prisma from './prisma'
+
+const updateDatabase = async (flowId: string, data: Prisma.WorkflowsUpdateInput) => {
+  return await prisma.workflows.update({
     where: {
       id: flowId
     },
@@ -19,11 +23,11 @@ export const workflowCreateNodesEdges = async (
   edges: string,
   flowPath: string
 ) => {
-  return await updateDb(flowId, { nodes, edges, flowPath });
+  return await updateDatabase(flowId, { nodes, edges, flowPath })
 }
 
 export const workflowPublish = async (flowId: string, state: boolean) => {
-  return await updateDb(flowId, { publish: state });
+  return await updateDatabase(flowId, { publish: state })
 }
 
 export const workflowCreateTemplate = async (
@@ -32,17 +36,20 @@ export const workflowCreateTemplate = async (
   content: any,
   channels?: Option[],
   accessToken?: string,
-  notionDbId?: string
+  notionDatabaseId?: string
 ) => {
   switch (type) {
-    case 'Discord':
-      return await updateDb(flowId, { discordTemplate: content });
+    case 'Discord': {
+      return await updateDatabase(flowId, { discordTemplate: content })
+    }
+    case 'Slack': {
+      const resp = await updateDatabase(flowId, {
+        slackTemplate: content,
+        slackAccessToken: accessToken
+      })
+      if (!resp || !channels?.length) break
 
-    case 'Slack':
-      const res = await updateDb(flowId, { slackTemplate: content, slackAccessToken: accessToken });
-      if (!res || !channels?.length) break;
-
-      const channelList = await db.workflows.findUnique({
+      const channelList = await prisma.workflows.findUnique({
         where: {
           id: flowId
         },
@@ -52,9 +59,9 @@ export const workflowCreateTemplate = async (
       })
 
       if (channelList) {
-        channelList.slackChannels.forEach(async (channel) => {
+        for (const channel of channelList.slackChannels) {
           if (channel !== channels[0].value) {
-            await db.workflows.update({
+            await prisma.workflows.update({
               where: {
                 id: flowId
               },
@@ -62,13 +69,11 @@ export const workflowCreateTemplate = async (
                 slackChannels: { push: channel }
               }
             })
-
           }
-        })
-      }
-      else {
-        channels.forEach(async (channel) => {
-          await db.workflows.update({
+        }
+      } else {
+        for (const channel of channels) {
+          await prisma.workflows.update({
             where: {
               id: flowId
             },
@@ -76,24 +81,28 @@ export const workflowCreateTemplate = async (
               slackChannels: { push: channel.value }
             }
           })
-        })
+        }
       }
-    case 'Notion':
-      return await updateDb(flowId, {
+      break
+    }
+    case 'Notion': {
+      return await updateDatabase(flowId, {
         notionTemplate: content,
         notionAccessToken: accessToken,
-        notionDbId: notionDbId
-      });
+        notionDbId: notionDatabaseId
+      })
+    }
 
-    default:
-      break;
+    default: {
+      break
+    }
   }
 }
 
 export const workflowCreate = async (name: string, desc: string) => {
-  const user = await currentUser();
-  if (!user) return;
-  return await db.workflows.create({
+  const user = await currentUser()
+  if (!user) return
+  return await prisma.workflows.create({
     data: {
       userId: user.id,
       name,
@@ -103,7 +112,7 @@ export const workflowCreate = async (name: string, desc: string) => {
 }
 
 export const workflowGetNodesEdges = async (flowId: string) => {
-  const res = await db.workflows.findUnique({
+  const resp = await prisma.workflows.findUnique({
     where: {
       id: flowId
     },
@@ -112,5 +121,5 @@ export const workflowGetNodesEdges = async (flowId: string) => {
       edges: true
     }
   })
-  if (res?.nodes && res?.edges) return res;
+  if (resp?.nodes && resp?.edges) return resp
 }

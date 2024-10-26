@@ -1,17 +1,17 @@
 {
-  "cSpell.words": [
-    "cloudinary",
-    "clsx",
-    "cmdk",
-    "hookform",
-    "immer",
-    "lucide",
-    "newapp",
-    "notionhq",
-    "sonner",
-    "tsparticles",
-    "vaul",
-    "xyflow",
-    "zustand"
-  ]
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
 }

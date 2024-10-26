@@ -1,12 +1,9 @@
-import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { CheckIcon, XCircle, ChevronDown, XIcon, WandSparkles } from 'lucide-react'
+import { CheckIcon, ChevronDown, WandSparkles, XCircle, XIcon } from 'lucide-react'
+import * as React from 'react'
 
-import { cn } from '@/lib/utils'
-import { Separator } from '@/components/ui/separator'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -16,6 +13,9 @@ import {
   CommandList,
   CommandSeparator
 } from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
 
 /**
  * Variants for the multi-select component to handle different styles.
@@ -172,16 +172,16 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
     }
 
     return (
-      <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen} modal={modalPopover}>
+      <Popover modal={modalPopover} open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild>
           <Button
             ref={ref}
             {...props}
-            onClick={handleTogglePopover}
             className={cn(
               'flex h-auto min-h-10 w-full items-center justify-between rounded-md border bg-inherit p-1 hover:bg-inherit',
               className
             )}
+            onClick={handleTogglePopover}
           >
             {selectedValues.length > 0 ? (
               <div className="flex w-full items-center justify-between">
@@ -198,10 +198,10 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         )}
                         style={{ animationDuration: `${animation}s` }}
                       >
-                        {IconComponent && <IconComponent className="mr-2 h-4 w-4" />}
+                        {IconComponent && <IconComponent className="mr-2 size-4" />}
                         {option?.label}
                         <XCircle
-                          className="ml-2 h-4 w-4 cursor-pointer"
+                          className="ml-2 size-4 cursor-pointer"
                           onClick={(event) => {
                             event.stopPropagation()
                             toggleOption(value)
@@ -221,7 +221,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                     >
                       {`+ ${selectedValues.length - maxCount} more`}
                       <XCircle
-                        className="ml-2 h-4 w-4 cursor-pointer"
+                        className="ml-2 size-4 cursor-pointer"
                         onClick={(event) => {
                           event.stopPropagation()
                           clearExtraOptions()
@@ -238,7 +238,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                       handleClear()
                     }}
                   />
-                  <Separator orientation="vertical" className="flex h-full min-h-6" />
+                  <Separator className="flex h-full min-h-6" orientation="vertical" />
                   <ChevronDown className="mx-2 h-4 cursor-pointer text-muted-foreground" />
                 </div>
               </div>
@@ -251,8 +251,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto p-0"
           align="start"
+          className="w-auto p-0"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
           <Command>
@@ -260,7 +260,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
             <CommandList>
               <CommandEmpty>No results found.</CommandEmpty>
               <CommandGroup>
-                <CommandItem key="all" onSelect={toggleAll} className="cursor-pointer">
+                <CommandItem key="all" className="cursor-pointer" onSelect={toggleAll}>
                   <div
                     className={cn(
                       'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
@@ -269,7 +269,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                         : 'opacity-50 [&_svg]:invisible'
                     )}
                   >
-                    <CheckIcon className="h-4 w-4" />
+                    <CheckIcon className="size-4" />
                   </div>
                   <span>(Select All)</span>
                 </CommandItem>
@@ -278,8 +278,8 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                   return (
                     <CommandItem
                       key={option.value}
-                      onSelect={() => toggleOption(option.value)}
                       className="cursor-pointer"
+                      onSelect={() => toggleOption(option.value)}
                     >
                       <div
                         className={cn(
@@ -289,11 +289,9 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                             : 'opacity-50 [&_svg]:invisible'
                         )}
                       >
-                        <CheckIcon className="h-4 w-4" />
+                        <CheckIcon className="size-4" />
                       </div>
-                      {option.icon && (
-                        <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-                      )}
+                      {option.icon && <option.icon className="mr-2 size-4 text-muted-foreground" />}
                       <span>{option.label}</span>
                     </CommandItem>
                   )
@@ -305,17 +303,17 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
                   {selectedValues.length > 0 && (
                     <>
                       <CommandItem
-                        onSelect={handleClear}
                         className="flex-1 cursor-pointer justify-center"
+                        onSelect={handleClear}
                       >
                         Clear
                       </CommandItem>
-                      <Separator orientation="vertical" className="flex h-full min-h-6" />
+                      <Separator className="flex h-full min-h-6" orientation="vertical" />
                     </>
                   )}
                   <CommandItem
-                    onSelect={() => setIsPopoverOpen(false)}
                     className="max-w-full flex-1 cursor-pointer justify-center"
+                    onSelect={() => setIsPopoverOpen(false)}
                   >
                     Close
                   </CommandItem>

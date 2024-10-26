@@ -1,7 +1,8 @@
 'use client'
-import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
+
+import { cn } from '@/lib/utils'
 
 const InfiniteMovingCards = ({
   items,
@@ -77,13 +78,13 @@ const InfiniteMovingCards = ({
       >
         {items.map((item, i) => (
           <Image
-            width={0}
+            key={i}
+            alt={item}
+            className="relative w-[170px] rounded-2xl object-contain opacity-50"
             height={0}
             sizes="100vw"
             src={item}
-            alt={item}
-            className="relative w-[170px] rounded-2xl object-contain opacity-50"
-            key={i}
+            width={0}
           />
         ))}
       </ul>

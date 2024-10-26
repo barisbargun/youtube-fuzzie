@@ -1,8 +1,8 @@
 'use client'
 
-import * as React from 'react'
 import { CaretSortIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import * as SelectPrimitive from '@radix-ui/react-select'
+import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -26,7 +26,7 @@ const SelectTrigger = React.forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <CaretSortIcon className="h-4 w-4 opacity-50" />
+      <CaretSortIcon className="size-4 opacity-50" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
@@ -116,9 +116,9 @@ const SelectItem = React.forwardRef<
     )}
     {...props}
   >
-    <span className="absolute right-2 flex h-3.5 w-3.5 items-center justify-center">
+    <span className="absolute right-2 flex size-3.5 items-center justify-center">
       <SelectPrimitive.ItemIndicator>
-        <CheckIcon className="h-4 w-4" />
+        <CheckIcon className="size-4" />
       </SelectPrimitive.ItemIndicator>
     </span>
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
@@ -140,13 +140,13 @@ SelectSeparator.displayName = SelectPrimitive.Separator.displayName
 
 export {
   Select,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
   SelectContent,
-  SelectLabel,
+  SelectGroup,
   SelectItem,
-  SelectSeparator,
+  SelectLabel,
+  SelectScrollDownButton,
   SelectScrollUpButton,
-  SelectScrollDownButton
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue
 }

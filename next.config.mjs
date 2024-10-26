@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode:true,
   images:{
     remotePatterns:[
       {
@@ -7,7 +8,7 @@ const nextConfig = {
         hostname:"img.clerk.com"
       }
     ]
-  }
+  },
 };
 
 export default nextConfig;

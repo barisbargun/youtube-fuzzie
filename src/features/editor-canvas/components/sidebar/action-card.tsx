@@ -1,6 +1,8 @@
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui'
-import { onDragStart } from '@/lib/editor'
-import IconHelper from '../icon-helper'
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+
+import { onDragStart } from '../../lib/editor'
+import { EditorActionTypes, EditorCanvasTypes } from '../../types/editor'
+import IconHelper from '../canvas/icon-helper'
 
 type Props = {
   title: EditorCanvasTypes
@@ -20,6 +22,7 @@ const ActionCard = ({ title, desc, type }: Props) => {
         <CardTitle className="text-md">
           {title}
           <CardDescription>{desc}</CardDescription>
+          <CardDescription>{type}</CardDescription>
         </CardTitle>
       </CardHeader>
     </Card>

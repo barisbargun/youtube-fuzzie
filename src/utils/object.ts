@@ -1,4 +1,7 @@
-// Use it for unique values 
-export const ChangeObjectSides = (obj: any) => {
-  return Object.fromEntries(Object.entries(obj).map(([key, value]) => [value, key]));
+// Use it for unique values
+
+export const ChangeObjectSides = (object: any) => {
+  return Object.fromEntries(Object.entries(object).map(([key, value]) => [value, key]))
 }
+
+export const emptyFunction = () => {}

@@ -1,10 +1,11 @@
-"use server"
+'use server'
 
-import { auth } from "@clerk/nextjs/server"
-import { db } from "./db"
+import { auth } from '@clerk/nextjs/server'
+
+import prisma from './prisma'
 
 export const getUser = async (id: string) => {
-  return await db.user.findUnique({
+  return await prisma.user.findUnique({
     where: {
       clerkId: id
     },
@@ -18,7 +19,7 @@ export const getGoogleListener = async () => {
   const { userId } = auth()
   return (
     userId &&
-    (await db.user.findUnique({
+    (await prisma.user.findUnique({
       where: {
         clerkId: userId
       },
