@@ -4,6 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+import { IProductConfig } from '@/config/companies'
+
 export const Header = () => {
   return (
     <div className="relative left-0 top-0 mx-auto w-full max-w-7xl px-4 py-20 md:py-40">
@@ -22,11 +24,7 @@ export const ProductCard = ({
   product,
   translate
 }: {
-  product: {
-    title: string
-    link: string
-    thumbnail: string
-  }
+  product: IProductConfig
   translate: MotionValue<number>
 }) => {
   return (
@@ -60,11 +58,7 @@ export const ProductCard = ({
 const HeroParallax = ({
   products
 }: {
-  products: {
-    title: string
-    link: string
-    thumbnail: string
-  }[]
+  products: IProductConfig[]
 }) => {
   const firstRow = products.slice(0, 5)
   const secondRow = products.slice(5, 10)

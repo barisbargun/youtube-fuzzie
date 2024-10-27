@@ -1,7 +1,9 @@
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
+import { useMemo } from 'react'
 import { toast } from 'sonner'
 
+import assets from '@/assets'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
 import { workflowPublish } from '@/lib/db/workflows'
@@ -21,14 +23,38 @@ const WorkflowCard = ({ id, desc, title, publish }: Props) => {
     })
   }
 
+  const Images = useMemo(() => {
+    const brands = assets.brands
+    return [
+      {
+        alt: 'google-drive',
+        src: brands.googleDrive
+      },
+      {
+        alt: 'notion',
+        src: brands.notion
+      },
+      {
+        alt: 'discord',
+        src: brands.discord
+      }
+    ] as { alt: string; src: StaticImageData }[]
+  }, [])
+
   return (
     <Card className="flex h-fit w-full items-center justify-between">
       <CardHeader className="flex flex-col">
         <Link href={`/workflows/editor/${id}`}>
           <div className="flex gap-2">
-            <Image alt="google-drive" height={30} src="/googleDrive.png" width={30} />
-            <Image alt="notion" height={30} src="/notion.png" width={30} />
-            <Image alt="discord" height={30} src="/discord.png" width={30} />
+            {Images.map((provider) => (
+              <Image
+                key={provider.alt}
+                alt={provider.alt}
+                height={30}
+                src={provider.src}
+                width={30}
+              />
+            ))}
           </div>
           <CardTitle className="mt-3 capitalize">{title}</CardTitle>
           <CardDescription>{desc}</CardDescription>

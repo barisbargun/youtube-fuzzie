@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -8,7 +8,7 @@ import { ConnectionTypes } from '@/types/connection'
 import { buttonVariants } from '../ui/button'
 
 type Props = {
-  img: string
+  img: StaticImageData
   title: ConnectionTypes
   desc: string
   connected?: boolean

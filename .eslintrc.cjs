@@ -88,7 +88,7 @@ module.exports = {
     '@typescript-eslint/no-empty-function': ['off'],
     '@typescript-eslint/no-explicit-any': ['off'],
     '@typescript-eslint/no-unused-vars': [
-      'warn',
+      'error',
       {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
@@ -100,7 +100,6 @@ module.exports = {
       'warn',
       {
         usePrettierrc: false
-        // endOfLine: 'crlf'
       }
     ],
 
@@ -122,18 +121,28 @@ module.exports = {
     ],
     'unicorn/filename-case': 'off',
     'unicorn/prevent-abbreviations': [
-      'error',
+      'warn',
       {
         replacements: {
-          "props": false,
-          "prev": false,
-          "docs": false,
-          "params": false,
-          "ref": false,
-          "env": false,
+          props: false,
+          prev: false,
+          docs: false,
+          params: false,
+          ref: false,
+          env: false,
+          e: false
         }
       }
     ],
-    'unicorn/no-empty-file': 'off',
-  }
+    'unicorn/no-empty-file': 'off'
+  },
+  overrides: [
+    {
+      files: ['src/assets/**/*.ts'],
+      rules: {
+        'import/no-anonymous-default-export': 'off',
+        'unicorn/prevent-abbreviations': 'off'
+      }
+    }
+  ]
 }

@@ -200,13 +200,6 @@ const EditorCanvasView = ({ editorActionItems }: Props) => {
       <MiniMap pannable zoomable className="!bg-background" position="bottom-left" />
       <Background gap={12} size={1} variant={BackgroundVariant.Dots} />
     </ReactFlow>
-
-    //       <FlowInstance edges={edges} nodes={nodes}>
-    //         <EditorSidebar />
-    //       </FlowInstance>
-    //     )}
-    //   </ResizablePanel>
-    // </ResizablePanelGroup>
   )
 }
 

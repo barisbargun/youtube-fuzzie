@@ -1,8 +1,12 @@
+import { StaticImageData } from 'next/image'
+
+import assets from '@/assets'
 import { NodeProviderProps } from '@/features/editor-canvas/types/node'
 import { ConnectionServices, ConnectionTypes } from '@/types/connection'
 
+const brands = assets.brands
 export interface ConnectionsConfig {
-  img: string
+  img: StaticImageData
   title: ConnectionTypes
   desc: string
   connectionKey: keyof NodeProviderProps
@@ -15,28 +19,28 @@ export const connectionsConfig: ConnectionsConfig[] = [
   {
     title: 'GoogleDrive',
     desc: 'Connect your google drive to listen to folder changes',
-    img: '/googleDrive.png',
+    img: brands.googleDrive,
     connectionKey: 'googleNode',
     alwaysTrue: true
   },
   {
     title: 'Discord',
     desc: 'Connect your discord to send notification and messages',
-    img: '/discord.png',
+    img: brands.discord,
     connectionKey: 'discordNode',
     accessTokenKey: 'webhookURL'
   },
   {
     title: 'Notion',
     desc: 'Create entries in your notion dashboard and automate tasks.',
-    img: '/notion.png',
+    img: brands.notion,
     connectionKey: 'notionNode',
     accessTokenKey: 'accessToken'
   },
   {
     title: 'Slack',
     desc: 'Use slack to send notifications to team members through your own custom bot.',
-    img: '/slack.png',
+    img: brands.slack,
     connectionKey: 'slackNode',
     accessTokenKey: 'slackAccessToken',
     slackSpecial: true

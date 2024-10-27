@@ -1,86 +1,90 @@
+import { StaticImageData } from 'next/image'
+
+import assets from '@/assets'
+
 export interface IProductConfig {
   title: string
   link: string
-  thumbnail: string
+  thumbnail: StaticImageData
 }
 
 export const productsConfig: IProductConfig[] = [
   {
     title: 'Moonbeam',
     link: 'https://gomoonbeam.com',
-    thumbnail: '/p1.png'
+    thumbnail: assets.screenshots.acme.moonbeam
   },
   {
     title: 'Cursor',
     link: 'https://cursor.so',
-    thumbnail: '/p2.png'
+    thumbnail: assets.screenshots.acme.cursor
   },
   {
     title: 'Rogue',
     link: 'https://userogue.com',
-    thumbnail: '/p3.png'
+    thumbnail: assets.screenshots.acme.rogue
   },
 
   {
     title: 'Editorially',
     link: 'https://editorially.org',
-    thumbnail: '/p4.png'
+    thumbnail: assets.screenshots.acme.editorially
   },
   {
     title: 'Editrix AI',
     link: 'https://editrix.ai',
-    thumbnail: '/p5.png'
+    thumbnail: assets.screenshots.acme.editrix
   },
   {
     title: 'Pixel Perfect',
     link: 'https://app.pixelperfect.quest',
-    thumbnail: '/p6.png'
+    thumbnail: assets.screenshots.acme.pixelPerfect
   },
 
   {
     title: 'Algochurn',
     link: 'https://algochurn.com',
-    thumbnail: '/p1.png'
+    thumbnail: assets.screenshots.acme.moonbeam
   },
   {
     title: 'Aceternity UI',
     link: 'https://ui.aceternity.com',
-    thumbnail: '/p2.png'
+    thumbnail: assets.screenshots.acme.cursor
   },
   {
     title: 'Tailwind Master Kit',
     link: 'https://tailwindmasterkit.com',
-    thumbnail: '/p3.png'
+    thumbnail: assets.screenshots.acme.rogue
   },
   {
     title: 'SmartBridge',
     link: 'https://smartbridgetech.com',
-    thumbnail: '/p4.png'
+    thumbnail: assets.screenshots.acme.editorially
   },
   {
     title: 'Renderwork Studio',
     link: 'https://renderwork.studio',
-    thumbnail: '/p5.png'
+    thumbnail: assets.screenshots.acme.editrix
   },
 
   {
     title: 'Creme Digital',
     link: 'https://cremedigital.com',
-    thumbnail: '/p6.png'
+    thumbnail: assets.screenshots.acme.pixelPerfect
   },
   {
     title: 'Golden Bells Academy',
     link: 'https://goldenbellsacademy.com',
-    thumbnail: '/p1.png'
+    thumbnail: assets.screenshots.acme.moonbeam
   },
   {
     title: 'Invoker Labs',
     link: 'https://invoker.lol',
-    thumbnail: '/p2.png'
+    thumbnail: assets.screenshots.acme.cursor
   },
   {
     title: 'E Free Invoice',
     link: 'https://efreeinvoice.com',
-    thumbnail: '/p3.png'
+    thumbnail: assets.screenshots.acme.rogue
   }
 ]

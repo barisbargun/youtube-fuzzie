@@ -1,9 +1,10 @@
-'use server'
 import { UserButton } from '@clerk/nextjs'
 import { currentUser } from '@clerk/nextjs/server'
 import { MenuIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import assets from '@/assets'
 
 const HomeNavbar = async () => {
   const user = await currentUser()
@@ -16,7 +17,7 @@ const HomeNavbar = async () => {
           alt="logo"
           className="size-auto shadow-sm"
           height={15}
-          src="/fuzzieLogo.png"
+          src={assets.logo}
           width={15}
         />
         <p>zie</p>
