@@ -4,20 +4,19 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback } from 'react'
 
-import { docsConfig } from '@/config/docs'
 import siteConfig from '@/config/site'
 import { cn } from '@/lib/utils'
-import { SidebarNavItem } from '@/types/nav'
 
 import { Separator } from '../ui/separator'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 import ModeToggle from './mode-toggle'
+import { mainSidebarNavConfig, NavConfig } from '@/config/docs'
 
 const Sidebar = () => {
   const pathName = usePathname()
 
   const isActive = useCallback(
-    (v: SidebarNavItem) => v.href && pathName.includes(v.href),
+    (v: NavConfig) => v.href && pathName.includes(v.href),
     [pathName]
   )
 
@@ -29,7 +28,7 @@ const Sidebar = () => {
         </Link>
         <TooltipProvider>
           <ul className="flex flex-col items-center gap-6">
-            {docsConfig.sidebarNav.map((v) => (
+            {mainSidebarNavConfig.map((v) => (
               <Tooltip key={v.title}>
                 <TooltipTrigger asChild>
                   <li>
