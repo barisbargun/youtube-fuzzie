@@ -1,14 +1,12 @@
 'use client'
 import { motion, MotionValue, useScroll, useTransform } from 'framer-motion'
-import React, { useRef } from 'react'
+import React, { ReactNode, useRef } from 'react'
 
-const ContainerScroll = ({
-  titleComponent,
-  children
-}: {
-  titleComponent: string | React.ReactNode
-  children: React.ReactNode
-}) => {
+type Props = {
+  children: ReactNode
+}
+
+const ScrollAnimationContainer = ({ children }: Props) => {
   const containerRef = useRef<any>(null)
   const { scrollYProgress } = useScroll({
     target: containerRef
@@ -45,16 +43,17 @@ const ContainerScroll = ({
           perspective: '1000px'
         }}
       >
-        <Header titleComponent={titleComponent} translate={translate} />
-        <Card rotate={rotate} scale={scale} translate={translate}>
-          {children}
-        </Card>
+        {React.Children.map(children, (child) =>
+          React.isValidElement(child)
+            ? React.cloneElement(child, { translate, scale, rotate } as any)
+            : child
+        )}
       </div>
     </div>
   )
 }
 
-export const Header = ({ translate, titleComponent }: any) => {
+const ScrollAnimationHeader = ({ translate, children }: any) => {
   return (
     <motion.div
       className="div mx-auto max-w-5xl text-center"
@@ -62,19 +61,19 @@ export const Header = ({ translate, titleComponent }: any) => {
         translateY: translate
       }}
     >
-      {titleComponent}
+      {children}
     </motion.div>
   )
 }
 
-export const Card = ({
+const ScrollAnimationCard = ({
   rotate,
   scale,
   children
 }: {
-  rotate: MotionValue<number>
-  scale: MotionValue<number>
-  translate: MotionValue<number>
+  rotate?: MotionValue<number>
+  scale?: MotionValue<number>
+  translate?: MotionValue<number>
   children: React.ReactNode
 }) => {
   return (
@@ -94,4 +93,4 @@ export const Card = ({
   )
 }
 
-export default ContainerScroll
+export { ScrollAnimationCard, ScrollAnimationContainer, ScrollAnimationHeader }
